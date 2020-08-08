@@ -1,0 +1,39 @@
+/*******************************************
+  Set up base image 
+*******************************************/
+// create a blank canvas
+$im = imagecreate($width,$height);   
+     
+// Allocate colors   
+$white=ImageColorAllocate($im,255,255,255);   
+$blue=ImageColorAllocate($im,0,64,128);   
+$black=ImageColorAllocate($im,0,0,0);   
+$pink = ImageColorAllocate($im,255,78,243); 
+
+$text_color = $black;
+$percent_color = $black;
+$bg_color = $white;
+$line_color = $black;
+$bar_color = $blue;
+$number_color = $pink;
+
+// Create "canvas" to draw on 
+ImageFilledRectangle($im,0,0,$width,$height,$bg_color);   
+
+// Draw outline around canvas 
+ImageRectangle($im,0,0,$width-1,$height-1,$line_color);   
+
+// Add title
+$title = 'Poll Results';
+$title_dimensions = ImageTTFBBox($title_size, 0, $font, $title);
+$title_length = $title_dimensions[2] - $title_dimensions[0];
+$title_height = abs($title_dimensions[7] - $title_dimensions[1]);
+$title_above_line = abs($title_dimensions[7]);
+$title_x = ($width-$title_length)/2;  // center it in x 
+$title_y = ($y - $title_height)/2 + $title_above_line; // center in y gap
+ImageTTFText($im, $title_size, 0, $title_x, $title_y, 
+             $text_color, $font, $title);  
+
+// Draw a base line from a little above first bar location 
+// to a little below last  
+ImageLine($im, $x, $y-5, $x, $height-15, $line_color);   

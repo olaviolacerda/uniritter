@@ -1,0 +1,98 @@
+// function to catch callbacks when the XML parser reaches the start of 
+// a new element
+function startElementHandler($parser, $name, $attributes)
+{
+  array_push($this->_names, $name);
+
+  if($name=='DETAILS')
+  {
+    $this->_currentProduct = new Product();
+  }
+  if($name == 'BROWSENODE')
+  {
+    $this->_currentProduct->_currentBrowseName++;
+  }
+  if($name == 'CUSTOMERREVIEW')
+  {
+    $this->_currentProduct->_currentReview++;
+  }
+}
+  
+// function to catch callbacks when the XML parser has data from 
+// an element
+function cdataHandler($parser, $cdata)
+{
+  $this->_currentName = array_slice($this->_names, -1, 1);
+  $this->_currentName = $this->_currentName[0];
+    
+  switch($this->_currentName)
+  {
+    case 'TOTALRESULTS' :
+      $this->_totalResults = $cdata;
+    break;
+   
+    case 'DETAILS' :
+    break;
+      
+    case 'AUTHOR' :
+      $this->_currentProduct->authors[] = $cdata;
+    break;
+    
+    case 'RATING' :
+    case 'SUMMARY' :
+    case 'COMMENT' :
+      @$this->_currentProduct->customerReviews[$this->_currentProduct->_
+               currentReview][$this->_currentName] .= $cdata;
+      // fields that may contain returns and &s need to be concatenated 
+      // concatenation will give a notice if they are enabled - 
+      //hence the @
+    break;
+    
+    case 'LISTID' :
+      $this->_currentProduct->listIDs[] = $cdata;
+    break;
+    
+    case 'BROWSENAME' :
+      @$this->_currentProduct->
+          browseNames[$this->_currentProduct->_currentBrowseName] .= $cdata;
+      // fields that may contain returns and &s need to be concatenated 
+      // concatenation will give a notice if they are enabled - 
+      // hence the @
+    break;
+  
+    case 'PRODUCT' :
+      $this->_currentProduct->similarProducts[] = $cdata;
+    break;
+  
+    // there are certain keys we are dealing with the children of 
+    // separately so can ignore
+    case 'CUSTOMERREVIEW' :
+    case 'AUTHORS' :
+    case 'BROWSELIST' :
+    case 'BROWSENODE' :
+    case 'LISTS' :
+    case 'REVIEWS' :
+    case 'SIMILARPRODUCTS' :
+      //do nothing
+    break;
+      
+    default :
+      @$this->_currentProduct->nodes[$this->_currentName] .= $cdata;
+    break;
+  }
+}
+
+// function to get callbacks when the XML parser reaches the end of an 
+// element
+function endElementHandler($parser, $name) 
+{
+  if($name=='DETAILS')
+  {
+    //these are no longer required
+    unset($this->_currentProduct->_currentReview);
+    unset($this->_currentProduct->_currentBrowseName);
+    
+    array_push($this->_products, $this->_currentProduct);
+  }
+  array_pop($this->_names) ;
+}

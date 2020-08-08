@@ -1,0 +1,20 @@
+function calculate_price($cart)
+{
+  // sum total price for all items in shopping cart
+  $price = 0.0;
+  if(is_array($cart))
+  {
+    $conn = db_connect();
+    foreach($cart as $isbn => $qty)
+    {  
+      $query = "select price from books where isbn='$isbn'";
+      $result = mysql_query($query);
+      if ($result)
+      {
+        $item_price = mysql_result($result, 0, 'price');
+        $price +=$item_price*$qty;
+      }
+    }
+  }
+  return $price;
+}

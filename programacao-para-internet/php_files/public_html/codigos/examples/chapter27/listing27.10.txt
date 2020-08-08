@@ -1,0 +1,36 @@
+function retrieve_message($auth_user, $accountid, $messageid, $fullheaders)
+{
+  $message = array();
+  
+  if(!($auth_user && $messageid && $accountid))
+    return false;
+  
+  $imap = open_mailbox($auth_user, $accountid);
+  if(!$imap) 
+    return false;      
+    $header = imap_header($imap, $messageid);
+  
+  if(!$header) 
+    return false;
+  
+  $message['body'] = imap_body($imap, $messageid);
+  if(!$message['body']) 
+    $message['body'] = "[This message has no body]\n\n\n\n\n\n";
+    
+  if($fullheaders)
+    $message['fullheaders'] = imap_fetchheader($imap, $messageid);
+  else
+    $message['fullheaders'] = '';
+  
+  $message['subject'] = $header->subject;
+  $message['fromaddress'] =   $header->fromaddress;
+  $message['toaddress'] =   $header->toaddress;
+  $message['ccaddress'] =   $header->ccaddress;
+  $message['date'] =   $header->date;
+    
+  // note we can get more detailed information by using from and to 
+  // rather than fromaddress and toaddress, but these are easier
+  
+  imap_close($imap); 
+  return $message;
+}

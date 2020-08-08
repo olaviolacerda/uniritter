@@ -1,0 +1,34 @@
+<?php
+// This class holds data about a single amazon product
+// scalar attributes are all stored in the array nodes
+// attributes from the XML document that require special 
+// treatment have their own array
+
+// if the data came via XML/HTTP, most of the data will be in $this->nodes
+// if the data came via SOAP, _ALL_ of the data will be in $this->soap
+
+// This class' main purpose is to provide a common interface to the data 
+// from these two sources so all the display code can be common
+class Product
+{
+  var $nodes = array();
+  var $authors = array();
+  var $listIDs = array();
+  var $browseNames = array();
+  var $customerReviews = array();
+  var $similarProducts = array();
+  var $_currentReview = -1;
+  var $_currentBrowseName = -1;
+  var $soap; // array returned by SOAP calls
+  
+  
+  // most methods in this class are similar
+  // return the XML variable or the SOAP one
+  // a single Product instance will only have one or the other
+  function similarProductCount()
+  {
+    if($this->soap)
+      return count($this->soap['SimilarProducts']);
+    else
+      return count($this->similarProducts);
+  }

@@ -1,0 +1,25 @@
+function add_bm($new_url)
+{
+  // Add new bookmark to the database
+
+  echo "Attempting to add ".htmlspecialchars($new_url).'<br />';
+  global $HTTP_SESSION_VARS;
+  $valid_user = $HTTP_SESSION_VARS['valid_user'];
+  
+  if (!($conn = db_connect()))
+    return false;
+
+  // check not a repeat bookmark
+  $result = mysql_query("select * from bookmark
+                         where username='$valid_user' 
+                         and bm_URL='$new_url'");
+  if ($result && (mysql_num_rows($result)>0))
+    return false;
+
+  // insert the new bookmark
+  if (!mysql_query( "insert into bookmark values
+                          ('$valid_user', '$new_url')"))
+    return false; 
+
+  return true;
+}

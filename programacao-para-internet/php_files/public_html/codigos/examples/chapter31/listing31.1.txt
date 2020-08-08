@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ProductInfo xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:noNamespaceSchemaLocation =
+                               "http://xml.amazon.com/schemas2/dev-heavy.xsd">
+   <Details url="http://www.amazon.com/exec/obidos/redirect?
+      tag=tangledwebdesign%26creative=XXXXXXXXXXXXXX%26 
+      camp=2025%26link_code=xm2%26path=ASIN/0672317842">
+      <Asin>0672317842</Asin>
+      <ProductName>PHP and MySQL Web Development</ProductName>
+      <Catalog>Book</Catalog>
+      <Authors>
+         <Author>Luke Welling</Author>
+         <Author>Laura Thomson</Author>
+      </Authors>
+      <ReleaseDate>30 March, 2001</ReleaseDate>
+      <Manufacturer>Sams</Manufacturer>
+      <ImageUrlSmall>
+        http://images.amazon.com/images/P/0672317842.01.THUMBZZZ.jpg
+      </ImageUrlSmall>
+      <ImageUrlMedium>
+        http://images.amazon.com/images/P/0672317842.01.MZZZZZZZ.jpg
+      </ImageUrlMedium>
+      <ImageUrlLarge>
+        http://images.amazon.com/images/P/0672317842.01.LZZZZZZZ.jpg
+      </ImageUrlLarge>
+      <ListPrice>$49.99</ListPrice>
+      <OurPrice>$34.99</OurPrice>
+      <UsedPrice>$31.95</UsedPrice>
+      <ThirdPartyNewPrice>$31.75</ThirdPartyNewPrice>
+      <SalesRank>312</SalesRank>
+      <Lists>
+         <ListId>3KZW1EV9QMB5F</ListId>
+         <ListId>22YCO1IGPIZJ3</ListId>
+         <ListId>Y2I9B362QXVX</ListId>
+      </Lists>
+      <BrowseList>
+         <BrowseNode>
+            <BrowseName>PHP (Computer program language</BrowseName>
+         </BrowseNode>
+         <BrowseNode>
+            <BrowseName>SQL (Computer program language</BrowseName>
+         </BrowseNode>
+         <BrowseNode>
+            <BrowseName>Web sites</BrowseName>
+         </BrowseNode>
+         <BrowseNode>
+            <BrowseName>Design</BrowseName>
+         </BrowseNode>
+         <BrowseNode>
+            <BrowseName>SQL (Computer language)</BrowseName>
+         </BrowseNode>
+         <BrowseNode>
+            <BrowseName>Sql (Programming Language)</BrowseName>
+         </BrowseNode>
+         <BrowseNode>
+            <BrowseName>Computer Networks</BrowseName>
+         </BrowseNode>
+         <BrowseNode>
+            <BrowseName>Computer Bks - Languages / Programming</BrowseName>
+         </BrowseNode>
+         <BrowseNode>
+            <BrowseName>Computers</BrowseName>
+         </BrowseNode>
+         <BrowseNode>
+            <BrowseName>Programming Languages - General</BrowseName>
+         </BrowseNode>
+         <BrowseNode>
+            <BrowseName>Internet - Web Site Design</BrowseName>
+         </BrowseNode>
+         <BrowseNode>
+            <BrowseName>Database Management - SQL Server</BrowseName>
+         </BrowseNode>
+         <BrowseNode>
+            <BrowseName>Programming Languages - SQL</BrowseName>
+         </BrowseNode>
+      </BrowseList>
+      <Media>Paperback</Media>
+      <NumMedia>1</NumMedia>
+      <Isbn>0672317842</Isbn>
+      <Availability>Usually ships within 24 hours</Availability>
+      <SimilarProducts>
+         <Product>0735709211</Product>
+         <Product>1861003730</Product>
+         <Product>073570970X</Product>
+         <Product>1861006918</Product>
+         <Product>0596000413</Product>
+      </SimilarProducts>
+   </Details>
+</ProductInfo>

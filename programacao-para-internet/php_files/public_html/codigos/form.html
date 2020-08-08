@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <title>Formulario</title>
+  </head>
+<body>
+ <table border="1" cellpadding="15">
+ <form action="trata_form.php" method="post">
+   <tr><td><label for="nome">Nome:</label><input type="text" name="nome" placeholder="Insira seu nome" required></td></tr>
+   <tr><td><label for="estado">Estado:</label>
+   <select name="estado">
+     <option value="">Selecione...</option>
+     <option value="RS">RS</option>
+     <option value="RJ">RJ</option>
+     <option value="Outro">Outro</option>
+   </select>
+     </td></tr>
+
+   <tr><td><label for="curso">Informe seu curso:</label>
+   <select name="curso">
+  <optgroup label="Facin">
+    <option value="CC">Ciência da Computação</option>
+    <option value="SIS">Sistemas de Informação</option>
+    <option value="ADS">Análise e Desenvolvimento de Sistemas</option>
+  </optgroup>
+  <optgroup label="Engenharia">
+    <option value="civil">Engenharia Civil</option>
+    <option value="eletrica">Engenharia Elétrica</option>
+    <option value="outro">Outro</option>
+  </optgroup>
+  </select>
+    <tr><td><label for="genero">Informe seu sexo:<br></label> 
+    <center><input type="radio" name="genero" value="masculino" checked> Masculino<br>
+  <input type="radio" name="genero" value="feminino">Feminino<br>
+  <input type="radio" name="genero" value="outro"> Outro
+      </center></td></tr>
+  <tr><td><label for="instrucao"></label>
+    <input type="checkbox" name="instrucao" value="mestrado">Mestrado<br>
+<input type="checkbox" name="instrucao" value="graduacao">Graduação
+  </td></tr>   
+  <tr><td>
+    <label for="mensagem">Deixe sua mensagem:<br></label>
+    <textarea rows="4" cols="50" name="mensagem">
+    </textarea>
+    </td></tr>   
+  <tr><td><center><input type="submit" name="envia" value="Envia" ></center></td></tr>
+     <input type="hidden" name="variavel" value="122">
+  </form>
+  </table>
+</body>
+</html>

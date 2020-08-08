@@ -1,0 +1,11 @@
+function get_email()
+{
+  global $HTTP_SESSION_VARS;
+  
+  if (isset($HTTP_SESSION_VARS['normal_user']))
+    return $HTTP_SESSION_VARS['normal_user'];    
+  if (isset($HTTP_SESSION_VARS['admin_user']))
+   return $HTTP_SESSION_VARS['admin_user'];    
+
+  return false;
+} 

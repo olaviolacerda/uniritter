@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<kml xmlns="http://www.opengis.net/kml/2.2">
+  <Document>
+    <name>Mapa para IA</name>
+    <description/>
+    <NetworkLink>
+      <name>Mapa para IA</name>
+      <Link>
+        <href><![CDATA[http://www.google.com/maps/d/kml?forcekml=1&mid=1XMyF4guffIas6TvRkKb-wMxAoFA]]></href>
+      </Link>
+    </NetworkLink>
+  </Document>
+</kml>

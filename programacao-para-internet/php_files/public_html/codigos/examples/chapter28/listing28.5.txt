@@ -1,0 +1,26 @@
+function login($email, $password)
+// check username and password with db
+// if yes, return login type 
+// else return false
+{
+  // connect to db
+  $conn = db_connect();
+  if (!$conn)
+    return 0;
+
+  $query = "select admin from subscribers 
+                         where email='$email'
+                         and password = password('$password')";
+  //echo $query;
+  $result = mysql_query($query);
+  if (!$result)
+    return false;
+  
+  if (mysql_num_rows($result)<1)
+    return false;
+  
+  if(mysql_result($result, 0, 0) == 1)
+    return 'admin';
+  else
+    return 'normal';
+}

@@ -1,0 +1,27 @@
+function check_normal_user()
+// see if somebody is logged in and notify them if not
+{
+  global $HTTP_SESSION_VARS;
+  
+  if (isset($HTTP_SESSION_VARS['normal_user']))
+    return true;
+  else
+    return false;
+}
+
+function check_admin_user()
+// see if somebody is logged in and notify them if not
+{
+  global $HTTP_SESSION_VARS;
+  
+  if (isset($HTTP_SESSION_VARS['admin_user']))
+    return true;
+  else
+    return false;
+}
+
+
+function check_logged_in()
+{
+  return ( check_normal_user() || check_admin_user() );
+}

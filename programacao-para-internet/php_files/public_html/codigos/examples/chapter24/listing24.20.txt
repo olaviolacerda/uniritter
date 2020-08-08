@@ -1,0 +1,29 @@
+function notify_password($username, $password)
+// notify the user that their password has been changed
+{
+    if (!($conn = db_connect()))
+      return false;
+    $result = mysql_query("select email from user
+                            where username='$username'");
+    if (!$result)
+    {
+      return false;  // not changed
+    }
+    else if (mysql_num_rows($result)==0)
+    {
+      return false; // username not in db
+    }
+    else
+    {
+      $email = mysql_result($result, 0, 'email');
+      $from = "From: support@phpbookmark \r\n";
+      $mesg = "Your PHPBookmark password has been changed to $password \r\n"
+              ."Please change it next time you log in. \r\n";
+      
+      
+      if (mail($email, 'PHPBookmark login information', $mesg, $from))
+        return true;      
+      else
+        return false;     
+    }
+}

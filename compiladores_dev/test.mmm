@@ -1,0 +1,7 @@
+let x = let s1 = "inicio",
+
+            s2 = "fim"    // <-- s2, sem a virgula ao fim
+
+        in s1 :: (str 1000) :: s2
+
+in "Resultado: " :: x2

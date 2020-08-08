@@ -1,0 +1,32 @@
+function store_account_settings($auth_user, $settings)
+{
+  if(!filled_out($settings))
+  {
+    echo 'All fields must be filled in.  Try again.<br /><br />';
+    return false;
+  }
+  else
+  {
+    if($settings['account']>0)
+      $query = "update accounts  set server = '$settings[server]',
+                  port = $settings[port], type = '$settings[type]',
+                  remoteuser = '$settings[remoteuser]', 
+                  remotepassword = '$settings[remotepassword]' 
+                where accountid = $settings[account] 
+                  and username = '$auth_user'";
+    else
+      $query = "insert into accounts values ('$auth_user', 
+                     '$settings[server]', $settings[port], 
+                     '$settings[type]', '$settings[remoteuser]', 
+                     '$settings[remotepassword]', NULL)";
+    if(db_connect() && mysql_query($query))
+    {
+      return true;
+    }
+    else
+    {
+      echo 'could not store changes.<br /><br /><br /><br /><br /><br />';
+      return false;
+    }
+  }
+}

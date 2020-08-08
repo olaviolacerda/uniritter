@@ -1,0 +1,29 @@
+function get_archive($listid)
+{
+  //returns an array of the archived mail for this list
+  //array has rows like (mailid, subject)
+
+  $list = array();  
+  $listname = get_list_name($listid);
+  
+  $query = "select mailid, subject, listid from mail 
+            where listid = $listid and status = 'SENT' order by sent"; 
+
+  if(db_connect())
+  {
+    $result = mysql_query($query);
+    if(!$result)
+    {
+      echo "<p>Unable to get list from database - $query.</p>";
+      return false;
+    }
+    $num = mysql_numrows($result);
+    for($i = 0; $i<$num; $i++)
+    {
+      $row = array(mysql_result($result, $i, 0), 
+                   mysql_result($result, $i, 1), $listname, $listid); 
+      array_push($list, $row);
+    }
+  }
+  return $list;
+} 

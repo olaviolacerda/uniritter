@@ -1,0 +1,233 @@
+\documentclass[11pt,a4paper]{article}
+
+\usepackage{iccv}
+\usepackage{times}
+\usepackage{epsfig}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage[brazil]{babel}
+\usepackage[OT1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[a4paper,
+hmargin={1.5cm,1.5cm},
+vmargin={2cm,2.5cm},
+footskip=5mm]{geometry}
+
+\usepackage[pagebackref=true,breaklinks=true,letterpaper=false,colorlinks,bookmarks=false]{hyperref}
+
+
+% \iccvfinalcopy % *** Retire o comentário desta linha para gerar a versão da biblioteca
+
+
+\begin{document}
+
+%%%%%%%%% Título %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\title{Classificação de Opiniões Textuais usando Redes Neurais Artificiais}
+
+\author{ \bf Fulano Beltrano da Silva\\
+		\tt fbeltrano@email.edu \\
+		Curso de Sistemas de Informação \\
+		Centro Universitário Ritter Dos Reis - UNIRITTER 
+		\and
+ 		\bf Ciclano de Castro Menezes\\
+		Professor Orientador\\
+}
+
+\maketitle
+\thispagestyle{empty}
+
+%%%%%%%%% Resumo %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{abstract}
+   A mineração de opiniões ou análise de sentimentos tem como um de seus objetivos automatizar a tarefa de identificar a orientação/sentimento (positiva e negativa) expressa sobre um dado tópico em documentos textuais. De modo geral, métodos na literatura apresentam duas etapas: (i) extração/seleção de feições (SF) lingüísticas do texto e (ii) classificação dos documentos. A maioria destes métodos focam na etapa de SF, empregando as técnicas de Support Vectors Machines (SVM) e Naïve Bayes (NB) na etapa de classificação. Neste artigo discute-se as potencialidades de Redes Neurais Artificiais (RNAs) para propósitos de Classificação de Sentimentos expressos em documentos textuais. Experimentos são conduzidos sobre a base de \textit{benchmarking} proposta por Pang e Lee \cite{Pang04:Subjectivity}, que é constituída por 2000 opiniões sobre filmes. Os resultados indicam que uma abordagem de classificação por RNAs pode produzir uma acurácia comparável a valores alcançados por métodos estado-da-arte. Além disso, a abordagem apresentada neste artigo não faz uso de fontes de informações linguísticas adicionais como a atribuição de tags gramaticais e de subjetividade.
+\end{abstract}
+
+\section{Introdução}
+
+Ao adquirir produtos ou serviços, consumidores naturalmente iniciam a formação de uma opinião sobre a qualidade destes. A compilação das opiniões de um grupo de consumidores pode ser de grande utilidade. Para empresas, ter conhecimento sobre a experiência dos consumidores sobre seus produtos/serviços é de valor estratégico. Para consumidores que pretendem adquirir novos produtos/serviços, a opinião de consumidores que já são usuários/proprietários dos produtos/serviços em questão pode ser útil na decisão de melhor compra.
+
+Atualmente, com a popularização da Web 2.0, muitos consumidores expressam suas experiências na internet através de blogs, fóruns e outros tipos de mídias sociais. Como exemplo pode-se citar o site www.amazon.com que disponibiliza uma das mais populares combinações de serviços de recomendação de produtos~\cite{Linden:Amazon} e avaliação destes por parte de seus consumidores. Neste contexto, a literatura tem apresentado métodos para automatizar a tarefa de classificar e sumarizar repositórios de opiniões textuais~\cite{abbasi:FRN,Hatzivassiloglou:Predicting,Turney:Thumbs,Pang02:ThumbsUp,Pang08:Survey}. A área de pesquisa é conhecida como \textit{mineração de opiniões} ou \textit{análise de sentimentos}, sendo que o livro de Pang and Lee ~\cite{Pang08:Survey} apresenta um panorama sobre pesquisas no assunto, justificando a necessidade de abordagens dedicadas a tratar a subjetividade em textos e não somente a extração de fatos e tópicos. Aplicações comuns deste campo de estudo estão em sistemas de suporte à decisão. Na indústria, por exemplo, frequentemente procura-se respostas para perguntas como "Por que os consumidores não estão comprando nossos produtos?". Ou mesmo no mercado financeiro, onde estudos recentes apontam que a previsão do comportamento de ações na bolsa de valores pode ser significativamente melhorada quando considera-se o humor de públicos específicos~\cite{twitter:stock}.
+
+
+Em geral, métodos propostos no contexto de mineração de opiniões são compostos essencialmente por duas partes: (1) \textit{extração/seleção de feições} (SF) e (2) \textit{classificação/aprendizado} das opiniões. A etapa de SF procura identificar características textuais que são relevantes no processo de classificação, uma vez que a presença de determinados tipos de feições prejudicam a acurácia de classificação e por isso são entendidos como ruído. Com base nos dados extraídos/selecionados na etapa (1), a etapa de classificação efetivamente distingui as opiniões em classes. Assim como parte da literatura, este trabalho tem como foco a classificação de opiniões em duas classes: opiniões com orientação \textit{positiva} ou \textit{negativa}. Neste contexto, a maioria dos métodos (veja seção~\ref{sec:RelatedWork}) propostos na literatura diferem na abordagem empregada para a etapa de SF, sendo popular o emprego de dois classificadores para a etapa de classificação: \textit{Support Vectors Machines} (SVM)~\cite{Hastie:learning} e o classificador \textit{Naïve Bayes} (NB)~\cite{Manning:IR}.
+
+Neste artigo, discute-se potencialidades de uma abordagem de classificação de opiniões utilizando redes neurais artificiais (RNAs), uma vez que a literatura sobre mineração de opiniões apresenta trabalhos apenas recentes, e pouco conclusivos, sobre esta abordagem de classificação~\cite{Chen:blogosphere,zhu:ANN}. Para tanto, emprega-se métodos clássicos na etapa de SF e verifica-se experimentalmente a acurácia de classificação com RNAs, e outros classificadores, para diferentes limiares de relevância de feições, as quais são extraídas de bases de dados empregadas como \textit{benchmarking} na literatura~\cite{Pang04:Subjectivity}. Os experimentos apontam resultados comparáveis a valores de acurácia obtidos por abordagens estado-da-arte.
+
+Este artigo discute na Seção \ref{sec:RelatedWork} a literatura de mineração de opiniões e a aplicação de RNAs. A Seção \ref{sec:Fundamentos} apresenta as etapas e técnicas comumente aplicadas ao problema de mineração de opiniões, descrevendo brevemente os principais classificadores empregados. Nesta Seção também discute-se uma abordagem para o problema envolvendo RNAs. A abordagem proposta por este trabalho é apresentada na Seção~\ref{sec:abordagem}, bem como as contribuições em relação a literatura. As Seções~\ref{sec:results} e~\ref{sec:conclusions}, apresentam respectivamente os resultados dos experimentos realizados e conclusões.
+
+\section{Trabalhos relacionados}\label{sec:RelatedWork}
+
+Muitos são os trabalhos que discutem o problema de classificação de opiniões expressas textualmente. Embora alguns trabalhos proponham abordagens não supervisionadas~\cite{Lin:Joint,Turney:Thumbs}, grande parte da literatura discute técnicas supervisionadas. Conjuntos de dados estão disponíveis~\cite{Pang04:Subjectivity,Blitzer:Biographies} e são empregados em inúmeros trabalhos com o objetivo de facilitar a comparação de resultados. Neste sentido, a revisão literária apresentada nesta seção discute essencialmente métodos cujos resultados foram produzidos sobre a base dados de \textit{benchmarking} disponibilizada por Pang e Lee~\cite{Pang04:Subjectivity}, que trata de opiniões sobre filmes\footnote{Disponível em http://www.cs.cornell.edu/People/pabo/movie-review-data/}.
+
+A abordagem proposta em~\cite{Pang02:ThumbsUp} é uma das pioneiras na área de mineração de opiniões. Essencialmente, os autores concluem que técnicas de aprendizado de máquina, comumente empregadas em mineração de textos, apresentam uma acurácia inferior àquelas obtidas para categorização de texto por tópicos quando aplicadas à classificação de opiniões (orientação positiva versus negativa). Algumas das feições linguísticas empregadas foram palavras (\textit{unigrams}), pares de palavras (\textit{bigrams}) e as classes gramaticais das palavras (\textit{part-of-speech}, conhecido como POS). Além disso, empregou-se a frequência das palavras como técnica de seleção de feições (SF), isto é, palavras mais frequentes são mais importantes. No sentido de melhor aproximar o conteúdo das opiniões, Pang e Lee~\cite{Pang04:Subjectivity} propõem classificar frases como sendo subjetivas ou objetivas, aplicando técnicas de classificação apenas sobre a porção subjetiva do texto. Além de considerar a probabilidade de um termo ser subjetivo, Raychev e Nakov~\cite{Raychev:Language} propõem considerar a posição deste dentro do texto como uma abordagem para identificar termos mais relevantes/informativos.
+
+ Whitelaw et al.~\cite{Whitelaw:Appraisal} propõem considerar expressões adjetivas como uma importante indicação da orientação da opinião. Zaidan et al.~\cite{Zaidan:Rationales} discute a utilização de outras fontes de informação no processo de identificar a polaridade de sentimento em uma opinião. Basicamente, anotadores humanos são orientados a destacar as palavras e sentenças que justificam o porquê de uma dada opinião ser positiva ou negativa. Li et al.~\cite{Li:Framework} analisam seis métodos populares de SF e concluem que termos que (i) aparecem frequentemente nas opiniões e (ii) possuem uma maior razão de frequência entre as classes são mais informativos no processo de classificação. O'Keefe e Koprinska~\cite{OKeefe:Weighting} também avaliaram o desempenho de técnicas de SF, bem como métodos de atribuição de peso às feições. Os melhores resultados foram alcançados considerando a diferença de frequência de cada termo nas classes como métrica de SF. Por exemplo, termos que aparecem com um número similar de vezes em ambas as classes, no processo de treinamento, são considerados de baixa importância. Esta abordagem é similar àquela empregada em~\cite{Li:Framework}.
+
+ Abbasi~\cite{abbasi:IFS} propõem que técnicas de SF deveriam ser adaptadas à análise de opiniões através da combinação de propriedades sintáticas das feições de texto com informações semânticas do sentimento expresso nas opiniões. No método de Abbasi a informação sintática é computada através de regras que definem relações entre diversas categorias de feições, como palavras simples e sua categoria sintática (comumente conhecido como POS \textit{tags}). Enquanto que a informação semântica é computada pela atribuição de pesos às feições de acordo com dois critérios: (i) sua distribuição de ocorrências nas classes, que é obtida na etapa de treinamento e (ii) grau de subjetividade como estabelecido na \textit{SentiWordNet}~\cite{Baccianella:Sentiwordnet3}, que é um repositório público de termos e respectivos graus/valores de orientação para três classes: positividade, negatividade e neutralidade. Dang et al.~\cite{Dang:Lexicon} também emprega diversas categorias de feições com base na \textit{SentiWordNet}, as quais são refinadas com a popular técnica de SF \textit{Information Gain}~\cite{Yang:comparative}.
+
+ \begin{table}[h]
+\caption{Resumo sobre a literatura de classificação supervisionada de opiniões segundo uma orientação positiva ou negativa.} \label{tab:best-accuracies}
+\begin{center}
+    \begin{tabular}{l l l}
+    \hline
+    Método                             & Melhor     & Método de      \\
+                                       & acurácia   & classificação      \\ \hline
+    \small \cite{Pang02:ThumbsUp}      & 82.9\%     & NB, SVM e ME \\
+    \small \cite{Pang04:Subjectivity}  & 87.2\%     & NB e SVM         \\
+    \small \cite{Dang:Lexicon}         & -          & SVM    \\
+    \small \cite{abbasi:IFS}           & 89.7\%     & SVM         \\
+    \small \cite{Raychev:Language}     & 89.8\%     & NB  \\
+    \small \cite{Whitelaw:Appraisal}   & 90.2\%     & SVM \\
+    \small \cite{Zaidan:Rationales}    & 92.2\%     & SVM \\
+    \small \cite{Li:Framework}         & 87.0\%     & SVM \\
+    \small \cite{OKeefe:Weighting}     & 87.1\%     & NB e SVM\\
+    \hline
+    \end{tabular}
+\end{center}
+\end{table}
+
+ De acordo com a discussão acima, pode-se notar que a literatura tem como foco a identificação de feições mais informativas/relevantes como forma de alcançar melhores resultados. Embora os valores de acurácia não devam ser comparados diretamente, devido a diferenças na organização dos experimentos, os resultados mostrados na Tabela~\ref{tab:best-accuracies} parecem justificar o foco de estudo na etapa de SF, uma vez que os valores evoluíram desde a publicação dos primeiros resultados no trabalho de Pang et al.~\cite{Pang02:ThumbsUp}. Neste sentido, pode-se dizer que a maioria dos métodos propostos na literatura distinguem-se pela abordagem de SF. Por outro lado, percebe-se uma concordância quanto ao emprego de técnicas de classificação. Conforme a Tabela~\ref{tab:best-accuracies}, as técnicas SVM e NB são bastante utilizadas, embora outras abordagens como \textit{Maximum Entropy} (ME)~\cite{Pang02:ThumbsUp} e Redes Bayesianas~\cite{Bai:Predicting} constem na literatura.
+
+
+Apenas recentemente, verifica-se trabalhos que exploram redes neurais artificiais na classificação de sentimentos em opiniões \cite{Chen:blogosphere,zhu:ANN}. O trabalho de Chen et al. \cite{Chen:blogosphere} emprega apenas parte de uma base consolidada de \textit{benchmarking} de opiniões, dificultado a tarefa de estabelecer comparativos com boa parte dos métodos propostos na literatura. Zhu et al.~\cite{zhu:ANN} também propõe o uso de redes neurais, porém de uma maneira bastante particular que integra as etapas de seleção de feições e classificação na forma de uma simulação de uma população de indivíduos que julgam a polaridade das opiniões. Infelizmente, o trabalho não esclarece inúmeros detalhes. De qualquer forma, os resultados relatados de acurácia estão condizentes com aqueles alcançados neste artigo.
+
+\section{Classificação de opiniões}\label{sec:Fundamentos}
+
+%O problema de classificação de opiniões textuais vem recebendo grande atenção em linhas de pesquisas que objetivam a classificação de um grande volume de opiniões.  através da extração do conhecimento de bases de dados, caracterizando assim, um aprendizado de máquina supervisionado.
+Esta seção apresenta uma visão geral sobre as etapas comumente presentes em abordagens propostas na literatura para o problema de classificação supervisionada de opiniões textuais. Neste sentido, tem-se como foco a abordagem conhecida como \textit{bag-of-words}, onde documentos textuais são representados como coleções de termos e, por isso, assumindo que estes ocorrem de maneira independente nos textos.
+
+Para que técnicas de classificação/aprendizado possam ser aplicadas a uma base textual, conhecida como \textit{corpus}, deve-se realizar uma limpeza e transformação dos dados/textos. Técnicas de pré-processamento textual objetivam minimizar a influência de variações textuais de baixo valor semântico, enquanto métodos de transformação buscam representar textos de forma numérica. Sendo assim, o processo completo de mineração de opiniões pode ser definido em seis etapas como mostra a Figura \ref{fig:processo}.
+
+
+
+\begin{figure}[h]
+\begin{center}
+\includegraphics[width=1\textwidth]{diagrama.jpg}
+\caption{Etapas e técnicas geralmente presentes em abordagens de mineração de opiniões.\label{fig:processo}}
+\end{center}
+\end{figure}
+
+Basicamente, duas técnicas de limpeza de dados são comumente empregadas na literatura: \textit{remoção de stopwords}, que visa descartar termos com baixo conteúdo agregado, como artigos, pronomes e preposições; e técnicas conhecidas como \textit{stemmer} \cite{Weiss:textMining}, responsáveis pela remoção do sufixo das palavras, fazendo com que características como o plural e gerúndio sejam removidas. Dentre os algoritmos de \textit{stemmer} mais utilizados para textos em língua inglesa estão o Snowball \cite{Porter:snowball}, Porter \cite{Porter:stemmer} e Lovin\cite{Lovins:Development}.
+
+Uma vez realizada a limpeza dos dados, procede-se para a etapa de transformação dos textos para uma representação numérica. Entre as representações comuns pode-se citar a representação binária, onde avalia-se a presença ou ausência do termo e a representação baseada na frequência do termo dentro dos documentos textuais \cite{Paltoglou:Retrieval,Li:Framework}. Além dessas, a técnica conhecida como TF-IDF (\textit{Term Frequency - Inverse Document Frequency}) é amplamente utilizada~\cite{Manning:IR}. A métrica TF-IDF clássica atribui um peso $w_{t,d}$ para um termo $t$ em um documento $d$ como
+\begin{equation}\label{eq:TF-IDF}
+    w_{t,d}= tf_{t,d} \times idf_{t} , \quad \textrm{onde} \quad idf_{t} = \log \frac{N}{df_{t}},
+\end{equation}
+sendo $tf_{t,d}$ a quantidade de vezes que o termo $t$ aparece no documento $d$, $N$ a quantidade total de documentos que compõe a base e $df_{t}$ a quantidade de documentos que contém o termo $t$.
+
+
+Como visto na Seção 2, outra etapa comumente presente em abordagens de mineração de opiniões é a seleção de feições (SF). Esta etapa objetiva a redução da quantidade de dados a ser utilizada nas etapas subsequentes, ao mesmo tempo em que procura descartar os dados menos relevantes. Por dados menos relevantes entende-se termos que não só contribuem pouco no processo de discriminação das classes, mas que também interferem negativamente (ruído) no desempenho dos algoritmos de classificação. Para isso, pode-se fazer o uso de técnicas supervisionadas, onde considera-se dados pré-classificados por um especialista em uma fase de treinamento/aprendizado, ou ainda técnicas não supervisionadas, que procuram inferir a relevância dos dados sem uma rotulação prévia~\cite{OKeefe:Weighting}.
+
+O próximo passo é a classificação. Neste trabalho foca-se a classificação supervisionada, onde busca-se identificar padrões em um conjunto de dados de treinamento para então detectá-los em dados de teste. Sendo assim, os classificadores supervisionados comumente utilizados no contexto de mineração de opiniões são brevemente descritos a seguir.
+
+\subsection{Classificador Naïve Bayes}
+
+ O classificador \textit{Naïve Bayes} caracteriza-se por assumir que os termos ocorrem de maneira independente, embora seja reconhecida a dependência em dados textuais~\cite{Manning:IR}. Duas são as etapas do classificador: aprendizado e classificação. Na primeira etapa, dois modelos são empregados para realizar o aprendizado: modelo Naïve Bayes Binário (também conhecido como Bernoulli) e Multinomial Naïve Bayes. Basicamente, a diferença está no fato de considerar somente a presença dos termos nos documentos (0 = ausência e 1 = presença) ou as frequências destes dentro de cada documento~\cite{Manning:IR}.
+
+Na etapa de aprendizado estima-se a probabilidade condicional $Pr(t_i|c)$ de um termo $t_i$ pertencer a classe $c_j$, além da probabilidade \textit{a priori} $Pr(c_j)$ dos documentos ocorrerem na classe $c_j$ \cite{Liu:dataMining}. A partir de $Pr(t_i|c_j)$ e $Pr(c_j)$, estimadas sobre o \textit{corpus} de treinamento, é possível aplicar o classificador através do cálculo da probabilidade $Pr(c_j|d)$, onde $d$ é o conjunto de termos contidos no documento que se deseja classificar, com o uso da seguinte equação:
+\begin{equation}
+Pr(c_j|d) = \frac{{Pr(c_j)\prod_{i=1}^{|d|} Pr(t_i|c_j)}}{\sum_{k=1}^{|C|} Pr(c_k)\prod_{i=1}^{|d|} Pr(t_i|c_k)}
+\end{equation}
+onde $|d|$ é a quantidade de termos contidas no conjunto $d$ e $|C|$ é o número total de classes.
+
+\subsection{Classificador support vectors machines}
+
+O classificador SVM também possui uma etapa de treinamento em que ocorre um mapeamento dos documentos textuais do \textit{corpus} de treinamento em um espaço de feições. Através da utilização de um produto interno de \textit{Kernel} busca-se uma fronteira de decisão entre as classes. As dimensões que compõem este espaço são as palavras contidas no \textit{corpus}, sendo que a posição de um documento é definida pela combinação das palavras presentes nele. Após o mapeamento dos documentos, o algoritmo de treinamento realiza a busca do melhor hiperespaço que divide as duas classes. Este melhor hiperespaço é definido de maneira a maximizar a distância entre ele e o documento mais próximo de cada classe. Com a definição deste hiperespaço ótimo, a etapa de classificação tem a tarefa de mapear o texto a ser classificado dentro do espaço definido pelo \textit{corpus} de treinamento e analisar através de sua posição a qual classe o documento pertence\cite{Liu:dataMining}.
+
+\subsection{RNAs e a classificação de opiniões}
+
+Como mencionado anteriormente, para o contexto de mineração de opiniões e análise de sentimentos são poucos os trabalhos encontrados na literatura que fazem o uso de RNAs. Dentre estes poucos, o método proposto por Chen et al.~\cite{Chen:blogosphere} faz o uso de quatro técnicas de Orientação Semântica (OS) \cite{Tang:so} para representar as opiniões, sendo que utiliza o resultado destas técnicas como entrada da rede neural. As técnicas de OS são aplicadas com o intuito de reduzir o custo computacional da rede neural, já que desta forma, a entrada da rede é composta por somente quatro neurônios, um para cada técnica de OS. Além disso, cada base testada é representada em termos de pequenas quantidades de palavras chave (variando de 35 a 85 conforme a base) quando comparada às quantidades de termos comumente utilizada nos trabalhos da área.
+
+
+
+
+\section{Abordagem de classificação por RNAs}\label{sec:abordagem}
+
+
+Uma vez que a literatura apresenta poucos relatos sobre a classificação de opiniões utilizando-se RNAs, a abordagem testada neste trabalho visa avaliar o desempenho das RNAs em um contexto clássico da literatura de mineração de opiniões. Entende-se que capturar aspectos subjetivos de textos é um problema relativamente novo e, por isso, justifica-se o foco deste trabalho em primeiro avaliar as potencialidades das RNAs em contextos mais difundidos, para então, em um trabalho futuro, implementar a classificação de opiniões por RNAs em conjunto com técnicas de seleção de feições mais elaboradas, tais como aquelas propostas em~\cite{Zaidan:Rationales,Whitelaw:Appraisal,Pang04:Subjectivity}. Deste modo, entre as contribuições deste trabalho pode-se destacar:
+
+\begin{itemize}
+  \item Avaliar o desempenho e viabilidade de aplicação de RNAs para o problema de classificação de opiniões/sentimentos;
+  \item Prover um comparativo entre as abordagens de classificação de opiniões comumente utilizadas na literatura, especificamente SVM e NB, e a abordagem de classificação por RNAs.
+\end{itemize}
+
+
+As etapas da abordagem testada são detalhadas a seguir:
+\begin{description}
+  \item[Pré-processamento:] na atividade de pré-processamento são aplicadas as técnicas de remoção de \textit{Stopwords} e o algoritmo \textit{Intered Lovin Stemmer} \cite{Lovins:Development};
+  \item[Extração e seleção de feições:] a extração de termos é feita na forma de palavras (\textit{unigrams}). Após, computa-se um \textit{ranking} das palavras contidas no \textit{corpus} de treinamento conforme sua relevância no processo de distinção das classes. Para isso utiliza-se a técnica \textit{Information Gain} (IG) \cite{Sebastiani:TextCateg};
+  \item[Transformação:] para a transformação foi utilizada a técnica TF-IDF (veja Seção~\ref{sec:Fundamentos}) que atribui um peso para cada palavra. Às palavras presentes numa opinião/documento é atribuído o peso conforme a Equação~\ref{eq:TF-IDF}, enquanto as demais palavras recebem peso zero;
+  \item[Treinamento e classificação por RNAs:] como entrada para esta etapa, tem-se opiniões representadas por conjuntos de palavras quantificadas na forma TF-IDF. A Rede Neural escolhida foi uma rede do tipo (\textit{feedforward}) com o uso do algoritmo de treinamento \textit{Scaled Conjugate Gradient}, que, conforme especificação da ferramenta Matlab, é o mais indicado quando envolve muitas variáveis de entrada e neurônios ocultos \cite{Beale:matlab}. Considerando a modelagem dos dados, as redes foram construídas de forma que a camada de entrada seja composta por \textit{n} neurônios, onde cada um representa uma das palavras da base. Além disso, foi utilizada somente uma camada oculta composta por uma quantidade de neurônios que variou de 30 a 100 neurônios. Já a camada de saída é composta por dois neurônios que representavam as classes do problema, positiva ou negativa.
+\end{description}
+
+%Na atividade de pré-processamento foram aplicadas as técnicas de remoção de \textit{Stopwords} e o algoritmo de \textit{Stemmer} Lovin Stemmer \cite{Lovins:Development} que resultaram na seleção de 19093 termos \textit{unigrams} a partir da base original. O próximo passo foi a aplicação da técnica de FS \textit{Information Gain} (IG) \cite{Sebastiani:TextCateg}. Tal técnica realiza um \textit{ranking} das palavras contidas no \textit{corpus} conforme sua relevância no processo de distinção das classes consideradas. Com isso, foram gerados cinco conjuntos de dados com diferentes quantidades de palavras selecionadas a fim de avaliar diferentes limiares de relevância de feições.
+%
+%Para a atividade de transformação foi utilizada a técnica \textit{Term Frequency - Inverse Document Frequency} (TF-IDF) \cite{Paltoglou:Retrieval} que atribui um peso para cada palavra, este peso aumenta proporcionalmente com o número de vezes que a palavra aparece dentro de um documento, mas é compensado pela frequência da palavra no \textit{corpus}. Às palavras presentes numa opinião é atribuído o peso correspondente, enquanto as demais palavras recebem peso zero.
+
+
+\section{Experimentos e resultados}\label{sec:results}
+
+%Os experimentos realizados visam contemplar a utilização de técnicas clássicas de pré-processamento, transformação e SF de opiniões textuais, associadas ao emprego de um classificador neural clássico, no sentido de explorar as potencialidades das redes neurais a um domínio de problema relativamente novo, que desperta cada vez mais interesse tanto da comunidade científica como de empresas, que é a Identificação de Opiniões/Sentimentos textuais de usuários da Web.
+
+Nesta seção detalha-se a organização dos experimentos e resultados associados. A base de dados empregada para testes foi o \textit{corpus} criado por Pang et al. \cite{Pang04:Subjectivity}. Esta base é amplamente empregada na literatura como \textit{benchmarking}, e contém 2000 opiniões sobre filmes distribuídas de forma balanceada entre as classes positiva e negativa.
+
+Como resultado da etapa de pré-processamento, obteve-se 19093 termos \textit{unigrams} a partir da base de filmes. Os resultados de classificação são apresentados em função de diferentes limiares de seleção de feições, isto é, segundo diferentes quantidades de palavras entregue pela técnica IG.
+
+\begin{table}[h]
+	\caption{Resultados comparativos entre três classificadores: \textit{Naïve Bayes} (NB), \textit{Support Vectors Machines} (SVM) e redes neurais artificiais (RNAs). Valores de acurácia e desvio padrão calculados para 10 \textit{fold cross-validation}.  \label{tab:results}}
+\begin{center}
+	\begin{tabular}{c | c c | c c | c c}
+		\hline
+		Num. de & \multicolumn{2}{c}{NB} & \multicolumn{2}{|c}{SVM} & \multicolumn{2}{|c}{RNAs}\\
+		Palavras & Acurácia & Desv. Pad.& Acurácia & Desv. Pad.& Acurácia & Desv. Pad.\\		 \cline{2-2}
+		\hline \hline
+		  787 & 79,8\% & 2,4\% & 84,9\% & 2\% & \textbf{85,5\%} & 1,5\% \\ 	
+	   1326 & 78,3\% & 2,9\% & 84,6\% & 2,2\% & \textbf{86\%} & 1,5\% \\ 	
+	   2413 & 78,7\% & 2,8\% & \textbf{85,5\%} & 1,7\% & 85,2\% & 1,8\% \\ 	
+	   5760 & 79,4\% & 2,4\% & \textbf{85,4\%} & 1,9\% & 84,7\% & 1,8\% \\ 	
+     7356 & 79,3\% & 1,9\% & \textbf{84,9\%} & 2,4\% & \textbf{84,9\%} & 1,5\% \\	
+		\hline
+	\end{tabular}
+\end{center}
+\end{table}
+
+No sentido de comparar o desempenho de classificadores quanto à acurácia, foram utilizadas duas técnicas além das RNAs, a SVM e a \textit{Naïve Bayes} (NB). Para a aplicação destes dois classificadores utilizou-se a ferramenta WEKA \footnote{Disponível em: http://www.cs.waikato.ac.nz/ml/weka/}. A Tabela \ref{tab:results} apresenta as médias dos resultados sobre os três classificadores utilizando o método de validação 10 \textit{fold cross-validation} e seus respectivos valores de desvio padrão. Os valores de acurácia estão em função de 5 limiares (5 linhas) de seleção de palavras segundo a relevância atribuída pela técnica IG.
+
+\begin{figure}[h]
+\begin{center}
+\includegraphics[width=0.70\textwidth]{filmes.jpg}
+\caption{Acurácia de classificação para os classificadores \textbf{\textsf{RNA}}, \textbf{\textsf{SVM}} e \textbf{\textsf{NB}} em função da quantidade de palavras. Os conjuntos de palavras são selecionados segundo 5 limiares de \textbf{\textsf{IG}} (\textit{information gain}).\label{fig:results}}
+\end{center}
+\end{figure}
+
+Os resultados dos experimentos mostram que as RNAs alcançam os melhores valores de acurácia para os dois menores conjuntos de palavras, sendo que não apresentam grandes diferenças comparados aos resultados do classificador com melhor desempenho nos demais conjuntos de palavras, o SVM. Além disso, outro ponto positivo das RNAs foi o valor de desvio padrão que, na maioria dos experimentos, se manteve abaixo dos demais classificadores, demostrando uma estabilidade maior na variação dos conjuntos de treinamento e teste.
+
+A Figura \ref{fig:results} ilustra os resultados correspondentes aos valores da Tabela \ref{tab:results}, permitindo uma melhor visualização do comportamento dos classificadores em função da quantidade de palavras selecionada na etapa de SF. Embora a etapa de pré-processamento tenha entregue 19093 termos, verificou-se um crescente, e já esperado~\cite{haykin:RNA}, custo computacional para a etapa de treinamento da RNA à medida que a quantidade de termos/entradas aumenta. Por esta razão, apresenta-se resultados em contextos inferiores a 8000 palavras. Contudo, observa-se que uma abordagem de classificação por RNAs não deve ser desprezada simplesmente por seu alto custo computacional em contextos de grande quantidade de palavras, uma vez que bons resultados da literatura são obtidos com a qualificação das feições, e não pelo aumento da quantidade destas~\cite{Whitelaw:Appraisal,Zaidan:Rationales,Pang04:Subjectivity,Li:Framework}. A Seção~\ref{sec:conclusions} apresenta uma análise crítica dos resultados obtidos.
+
+
+%Pode-se notar que as RNAs apresentam, assim como o classificador SVM, uma boa eficiência neste quesito de grande importância, dada a dificuldade de técnicas de SF em definir um conjunto ótimo de palavras a ser considerado na construção dos classificadores.
+
+%Apesar dos resultados deste trabalho não poderem ser diretamente comparados com os resultados de classificação apresentados na literatura (veja Seção~\ref{sec:RelatedWork}), devido à diferença das abordagens empregadas anteriormente à etapa de classificação, eles se assemelham com os resultados apresentados nos trabalhos que utilizam modelagens de dados e técnicas na etapa de SF menos sofisticadas \cite{Pang02:ThumbsUp,Pang04:Subjectivity}.
+
+\section{Conclusões}\label{sec:conclusions}
+
+Este trabalho investigou as potencialidades de redes neurais artificiais para propósitos de mineração de opiniões, expressas textualmente, sobre um determinado tópico. Especificamente, a abordagem proposta investigou a acurácia de classificação de documentos textuais em termos de duas classes de sentimento: opiniões que expressam um parecer positivo versus opiniões orientadas negativamente. Como forma de facilitar comparativos, empregou-se uma base de opiniões sobre filmes que é amplamente utilizada na literatura. Os experimentos foram conduzidos com a utilização de técnicas clássicas de pré-processamento, transformação e seleção de feições textuais, com o objetivo de explorar as potencialidades das redes neurais em um contexto difundido e bem compreendido na literatura de mineração de opiniões.
+
+
+Os maiores valores de acurácia relatados na literatura estão na faixa de 92\% (veja Tabela~\ref{tab:best-accuracies}) e podem ser atribuídos a métodos de seleção de feições mais elaborados, os quais empregam, por exemplo, fontes de informações linguísticas adicionais como \textit{tags} gramaticais e de subjetividade. Deve-se observar que estes recursos não são empregados neste trabalho, o que confere uma clara oportunidade de melhores resultados de acurácia pela combinação de métodos de seleção de feições devotados à mineração de opiniões com um classificador baseado em RNAs. Ainda que comparações diretas não devam ser estabelecidas, uma acurácia de 87,2\% é relatada em~\cite{Pang04:Subjectivity}, onde seleciona-se feições com base em um detector de frases subjetivas, sendo que nossos experimentos apontam 86\% de acurácia (apenas 1,2\% menor) para uma abordagem que emprega RNAs sobre feições selecionadas de forma supervisionada, mas que não consideram explicitamente a subjetividade.
+
+
+Considerando o comparativo entre as abordagens de classificação por RNAs, SVM e NB, sobre um mesmo conjunto de feições, os experimentos indicam uma acurácia de classificação por RNAs situada na faixa de valores entregues pelo classificador SVM, e acima dos valores obtidos para o classificador NB. Assim, uma vez que inúmeros trabalhos na literatura relatam melhores resultados com a técnica SVM, pode-se concluir que uma abordagem de classificação por RNAs apresenta potencial quando o propósito é classificar opiniões textuais.
+
+Contudo, uma abordagem por RNAs tende a depender mais fortemente da etapa de seleção de feições. Uma vez que esta etapa tem por objetivo selecionar um conjunto de feições tão representativo/qualificado quanto reduzido, pode-se concluir que uma abordagem de classificação por RNAs tem na seleção de feições um ponto crítico, pois uma quantidade elevada de entradas da RNA pode demandar um tempo proibitivo de treinamento. Esta conclusão concorda com a literatura, uma vez que a abordagem proposta por Chen et al.~\cite{Chen:blogosphere} emprega menos de 100 entradas para as RNAs, ao custo de valores de acurácia inferiores aos relatados neste trabalho e na literatura\footnote{Ainda que comparações diretas não sejam adequadas, pois Chen et al.~\cite{Chen:blogosphere} não utilizou a base de filmes por completo.}.
+
+A sequência deste trabalho abrange estudos com o objetivo de avaliar o desempenho da classificação por RNAs sobre conjuntos de feições que resultaram nos melhores valores de acurácia segundo a literatura, procurando equacionar entre representatividade e síntese dos dados que estarão na entrada das RNAs.
+
+\renewcommand\refname{Referências}
+{\small
+\bibliographystyle{ieee}
+\bibliography{MinhasRefs}
+}
+
+
+\end{document}

@@ -1,0 +1,23 @@
+/*******************************************
+  Initial calculations for graph 
+*******************************************/
+// set up constants
+putenv('GDFONTPATH=C:\WINNT\Fonts');
+$width=500;        // width of image in pixels - this will fit in 640x480
+$left_margin = 50; // space to leave on left of image
+$right_margin= 50; // ditto right   
+$bar_height = 40;  
+$bar_spacing = $bar_height/2; 
+$font = 'arial';
+$title_size= 16; // point
+$main_size= 12; // point
+$small_size= 12; // point
+$text_indent = 10; // position for text labels on left
+
+// set up initial point to draw from
+$x = $left_margin + 60;  // place to draw baseline of the graph
+$y = 50;                 // ditto 
+$bar_unit = ($width-($x+$right_margin)) / 100;   // one "point" on the graph
+
+// calculate height of graph - bars plus gaps plus some margin
+$height = $num_candidates * ($bar_height + $bar_spacing) + 50;   

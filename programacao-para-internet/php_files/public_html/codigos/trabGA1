@@ -1,0 +1,57 @@
+1. Questão discursiva
+Como você avalia a importância de saber/dominar tecnologias relacionadas à web - php (ou outra de backend), html, css, js? Escreva um texto refletindo sobre isso e como pode permitir a você ter sucesso na sua carreira.
+
+
+2.Problema prático
+Crie um fomulário que envie as seguintes informações:
+
+nome 
+rua/av
+número
+complemento 
+cep 
+email
+senha
+
+Depois crie um arquivo php para receber e tratar esse formulário. Caso todas as validações ocorram, deve aparecer a mensagem:
+"Cadastro realizado com sucesso"
+
+Caso contrário deverá aparecer uma mensagem geral:
+"Cadastro não realizado." 
+"Verifique o(s) campo(s)" - indicando qual(ais) campos tiveram problema 
+
+
+
+nome - livre até 30 caracteres
+rua/av - livre até 45 caracteres
+número - numerico até 7 caracteres
+complemento - livre até 10 caracteres
+cep - formato "00000-000"
+email - até 30 caracteres incluindo o domínio  
+senha - no mínimo 8 caracteres, inlcuindo pelo menos uma maiúscula
+
+nome - livre até 30 caracteres
+rua/av - livre até 45 caracteres
+número - numerico até 7 caracteres
+complemento - livre até 10 caracteres
+cep - formato "00000-000"
+email - até 30 caracteres incluindo o domínio  
+senha - no mínimo 8 caracteres, inlcuindo pelo menos um caractere especial como $%/-@!#
+
+nome - livre até 30 caracteres
+rua/av - livre até 45 caracteres
+número - numerico até 7 caracteres
+complemento - livre até 10 caracteres
+cep - formato "00000-000"
+email - até 30 caracteres incluindo o domínio  
+senha - no mínimo 6 caracteres, inlcuindo pelo menos uma maiúscula
+
+nome - livre até 30 caracteres
+rua/av - livre até 45 caracteres
+número - numerico até 7 caracteres
+complemento - livre até 10 caracteres
+cep - formato "00000-000"
+email - até 30 caracteres incluindo o domínio  
+senha - no mínimo 6 caracteres, inlcuindo pelo menos um caractere especial como $%/-@!#
+
+

@@ -1,0 +1,15 @@
+function display_information($listid)
+{
+  if(!$listid)
+    return false;
+
+  $info = load_list_info($listid);
+
+  if($info)
+  {
+    echo '<h2>'.pretty($info[listname]).'</h2>';
+    echo '<p>'.pretty($info[blurb])'</p>;
+    echo '<p>Number of subscribers:' . $info[subscribers]'</p>;
+    echo '<p>Number of messages in archive:' . $info[archive]'</p>;
+  }
+} 

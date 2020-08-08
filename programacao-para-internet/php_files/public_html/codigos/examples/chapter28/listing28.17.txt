@@ -1,0 +1,168 @@
+// create the message from the stored DB entries and files
+// send test messages to the administrator, or real messages to the whole list
+function send($mailid, $admin_user)
+{
+  if(!check_admin_user($admin_user))
+    return false;
+  
+  if(!($info = load_mail_info($mailid)))
+  { 
+    echo "Cannot load list information for message $mailid";
+    return false;
+  }
+  $subject = $info[0];
+  $listid = $info[1];
+  $status = $info[2];
+  $sent = $info[3];
+    
+  $from_name = 'Pyramid MLM';
+      
+  $from_address = 'return@address';
+    
+  $query = "select email from sub_lists where listid = $listid";
+  
+  $result = mysql_query($query);
+  if (!$result)
+  {
+    echo $query;
+    return false;  
+  }
+  else if (mysql_num_rows($result)==0)
+  {
+    echo "There is nobody subscribed to list number $listid";
+    return false; 
+  }
+  else
+  {
+    // include PEAR mail classes
+    include('Mail.php');
+    include('Mail/mime.php');
+
+    // instantiate MIME class and pass it the carriage return/line feed 
+    // character used on this system
+    $message = new Mail_mime("\r\n");
+
+    // read in the text version of the newsletter
+    $textfilename = "archive/$listid/$mailid/text.txt";
+    $tfp = fopen($textfilename, "r");
+    $text = fread($tfp, filesize($textfilename));
+    fclose($tfp);
+
+    // read in the HTML version of the newsletter
+    $htmlfilename = "archive/$listid/$mailid/index.html";
+    $hfp = fopen($htmlfilename, "r");
+    $html = fread($hfp, filesize($htmlfilename));
+    fclose($hfp);
+
+    // add HTML and text to the mimemail object
+    $message->setTXTBody($text);
+    $message->setHTMLBody($html);
+
+    // get the list of images that relate to this message
+    $query = "select path, mimetype from images where mailid = $mailid";
+    if(db_connect())
+    {
+      $result = mysql_query($query);
+      if(!$result)
+      {
+        echo '<p>Unable to get image list from database.</p>';
+        return false;
+      }
+      $num = mysql_numrows($result);
+      for($i = 0; $i<$num; $i++)
+      {  
+        //load each image from disk
+        $imgfilename = "archive/$listid/$mailid/".mysql_result($result, $i, 0);
+        $imgtype = mysql_result($result, $i, 1);
+
+        // add each image to the object
+        $message->addHTMLImage($imgfilename, $imgtype, $imgfilename, true);
+      }
+    }  
+    
+    // create message body
+    $body = $message->get();  
+
+    // create message headers
+    $from = '"'.get_real_name($admin_user).'" <'.$admin_user.'>';
+    $hdrarray = array(              
+                 'From'    => $from,
+                 'Subject' => $subject);
+
+    $hdrs = $message->headers($hdrarray);
+
+    // create the actual sending object
+    $sender =& Mail::factory('mail');
+ 
+    if($status == 'STORED')
+    {
+      
+      // send the HTML message to the administrator
+      $sender->send($admin_user, $hdrs, $body);
+      
+      // send the plain text version of the message to administrator
+      mail($admin_user, $subject, $text, 'From: "'
+           .get_real_name($admin_user).'" <'.$admin_user.">");
+
+      echo "Mail sent to $admin_user"; 
+
+      // mark newsletter as tested
+      $query = "update mail set status = 'TESTED' where mailid = $mailid";
+      if(db_connect())
+      {
+        $result = mysql_query($query);
+      }    
+    
+      echo '<p>Press send again to send mail to whole list.</p><center>';
+      display_button('send', "&id=$mailid");
+      echo '</center>';
+    }    
+    else if($status == 'TESTED')
+    {
+      //send to whole list
+    
+      $query = "select subscribers.realname, sub_lists.email, 
+                       subscribers.mimetype  
+                from sub_lists, subscribers 
+                where listid = $listid and 
+                      sub_lists.email = subscribers.email";
+                      
+      if(!db_connect())
+        return false;
+    
+      $result = mysql_query($query);
+      if(!$result)
+        echo '<p>Error getting subscriber list</p>';
+      
+      $count = 0;      
+      // for each subscriber
+      while( $subscriber = mysql_fetch_row($result) )
+      {
+        if($subscriber[2]=='H')
+        {
+          //send HTML version to people who want it
+          $sender->send($subscriber[1], $hdrs, $body);
+        }
+        else
+        {
+          //send text version to people who don't want HTML mail
+          mail($subscriber[1], $subject, $text, 
+               'From: "'.get_real_name($admin_user).'" <'.$admin_user.">");
+        }
+        $count++; 
+      }
+        
+      $query = "update mail set status = 'SENT', sent = now() 
+                where mailid = $mailid";
+      if(db_connect())
+      {
+        $result = mysql_query($query);
+      }
+      echo "<p>A total of $count messages were sent.</p>";    
+    }
+    else if($status == 'SENT')
+    {
+      echo '<p>This mail has already been sent.</p>';    
+    }
+  }
+}

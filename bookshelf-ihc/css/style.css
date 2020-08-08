@@ -1,0 +1,105 @@
+html {
+  height: 80%;
+}
+
+body {
+  background-image:url("../img/fundo.png");
+  /*background-size: 100em 60em;*/
+  background-size: cover;
+
+}
+h1{
+  display: block;
+font-size: 3em;
+-webkit-margin-before: 0.67em;
+-webkit-margin-after: 0.67em;
+-webkit-margin-start: 0px;
+-webkit-margin-end: 0px;
+font-weight: bold;
+}
+
+.bookshelf {
+  width: 45%;
+  margin: 50px auto;
+  margin-top: 8%;
+  margin-left: 25%;
+  border: 10px #A87328 solid;
+  overflow: hidden;
+  background-image: -webkit-linear-gradient(#241909, #2c1e0b 220px, #b87e2c 220px, #b87e2c 222px, #A87328 222px, #A87328 228px, #986824 228px, #986824 230px);
+  background-image: linear-gradient(#241909, #2c1e0b 220px, #b87e2c 220px, #b87e2c 222px, #A87328 222px, #A87328 228px, #986824 228px, #986824 230px);
+  background-size: 10px 230px;
+}
+
+.book {
+  height: 13.8em;
+  width: 2.5em;
+  float: left;
+  color: white;
+  font-size: 0.9em;
+  font-family: Verdana, sans-serif;
+  margin-bottom: 10px;
+  margin-top: 20px;
+  -webkit-transition: -webkit-transform 0.4s ease;
+  transition: -webkit-transform 0.4s ease;
+  transition: transform 0.4s ease;
+  transition: transform 0.4s ease, -webkit-transform 0.4s ease;
+}
+
+.book-tilted {
+  float: left;
+  width: 74px;
+}
+
+.book-tilted > .book {
+  -webkit-transform: translateY(-3px) translateX(15px) rotate(9deg);
+          transform: translateY(-3px) translateX(15px) rotate(9deg);
+}
+
+.book:hover {
+  -webkit-transform: scale(1.05);
+          transform: scale(1.05);
+}
+
+.book-green {
+  background-color: #52B221;
+  border-left: 2px solid #96FF62;
+  border-right: 2px solid #005000;
+
+}
+
+.book-pink {
+  background-color: #B26CB1;
+  border-left: 2px solid #FB7CFC;
+  border-right: 2px solid #FB7CFC;
+  color: black;
+}
+
+.book h2 {
+  padding: 0;
+  font-size: 1em;
+  -webkit-transform-origin: 0% 0%;
+          transform-origin: 0% 0%;
+  -webkit-transform: rotate(0.25turn) translateY(-35px);
+          transform: rotate(0.25turn) translateY(-35px);
+  width: 170px;
+}
+
+.book h3 {
+  padding: 0;
+  font-size: 0.7em;
+  -webkit-transform-origin: 0 0;
+          transform-origin: 0 0;
+  -webkit-transform: rotate(0.25turn) translateY(-15px) translateX(-20px);
+          transform: rotate(0.25turn) translateY(-15px) translateX(-20px);
+  width: 150px;
+}
+
+.footer{
+  width: 100%;
+              clear: both;
+              color: #FFF;
+              padding-top: 0.063em;
+              padding-bottom: 0.063em;
+              margin-top: 30%;
+              text-align: center;
+}

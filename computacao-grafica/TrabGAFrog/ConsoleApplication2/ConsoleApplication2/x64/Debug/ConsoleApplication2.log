@@ -1,0 +1,24 @@
+﻿A:\Install\Microsoft Visual Studio\2017\Community\Common7\IDE\VC\VCTargets\Microsoft.CppBuild.targets(387,5): warning MSB8028: The intermediate directory (x64\Debug\) contains files shared from another project (Frog.vcxproj).  This can lead to incorrect clean and rebuild behavior.
+  main.cpp
+c:\users\olavio\documents\visual studio 2017\projects\consoleapplication2\metodos.h(37): warning C4244: 'argument': conversion from 'double' to 'GLfloat', possible loss of data
+c:\users\olavio\documents\visual studio 2017\projects\consoleapplication2\metodos.h(138): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.10240.0\ucrt\string.h(119): note: see declaration of 'strcpy'
+c:\users\olavio\documents\visual studio 2017\projects\consoleapplication2\metodos.h(149): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.10240.0\ucrt\string.h(119): note: see declaration of 'strcpy'
+c:\users\olavio\documents\visual studio 2017\projects\consoleapplication2\metodos.h(162): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.10240.0\ucrt\string.h(119): note: see declaration of 'strcpy'
+c:\users\olavio\documents\visual studio 2017\projects\consoleapplication2\metodos.h(174): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.10240.0\ucrt\string.h(119): note: see declaration of 'strcpy'
+c:\users\olavio\documents\visual studio 2017\projects\consoleapplication2\metodos.h(186): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.10240.0\ucrt\string.h(119): note: see declaration of 'strcpy'
+c:\users\olavio\documents\visual studio 2017\projects\consoleapplication2\metodos.h(202): warning C4305: 'argument': truncation from 'double' to 'GLclampf'
+c:\users\olavio\documents\visual studio 2017\projects\consoleapplication2\metodos.h(205): warning C4305: '=': truncation from 'double' to 'GLfloat'
+c:\users\olavio\documents\visual studio 2017\projects\consoleapplication2\metodos.h(206): error C2065: 'r': undeclared identifier
+c:\users\olavio\documents\visual studio 2017\projects\consoleapplication2\metodos.h(207): error C2065: 'g': undeclared identifier
+c:\users\olavio\documents\visual studio 2017\projects\consoleapplication2\metodos.h(208): error C2065: 'b': undeclared identifier
+c:\users\olavio\documents\visual studio 2017\projects\consoleapplication2\metodos.h(209): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.10240.0\ucrt\string.h(119): note: see declaration of 'strcpy'
+  Generating Code...
+  Skipping... (no relevant changes detected)
+  Frog.cpp
+  Car.cpp

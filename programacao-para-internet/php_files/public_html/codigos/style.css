@@ -1,0 +1,25 @@
+.no-icon{
+	height: 34px;
+	width: 37px;
+	display: inline-block;
+	vertical-align: middle;
+}
+.up-icon{
+	background-image: url("webicon15.png");
+	background-position: 405px -89px;
+	height: 34px;
+	width: 37px;
+	display: inline-block;
+	vertical-align: middle;
+}
+.down-icon{
+	background-image: url("webicon15.png");
+	background-position: 446px -89px;
+	height: 34px;
+	width: 37px;
+	display: inline-block;
+	vertical-align: middle;
+}
+
+.table-links{
+}

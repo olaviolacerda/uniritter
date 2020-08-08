@@ -1,0 +1,14 @@
+function number_of_accounts($auth_user)
+{
+  // get the number of accounts that belong to this user
+  
+  $query = "select count(*) from accounts where username = '$auth_user'";
+
+  if(db_connect())
+  {
+    $result = mysql_query($query);
+      if($result)
+        return mysql_result($result, 0, 0);
+  }
+  return 0;
+}

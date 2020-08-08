@@ -1,0 +1,23 @@
+function register($username, $email, $password)
+// register new person with db
+// return true or error message
+{
+ // connect to db
+  $conn = db_connect();
+  if (!$conn)
+    return 'Could not connect to database server - please try later.';
+  // check if username is unique 
+  $result = mysql_query("select * from user where username='$username'"); 
+  if (!$result)
+     return 'Could not execute query';
+  if (mysql_num_rows($result)>0) 
+     return 'That username is taken - go back and choose another one.';
+
+  // if ok, put in db
+  $result = mysql_query("insert into user values 
+                         ('$username', password('$password'), '$email')");
+  if (!$result)
+    return 'Could not register you  in database - please try again later.';
+
+  return true;
+}

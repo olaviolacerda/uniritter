@@ -1,0 +1,66 @@
+function display_mail_form($email, $listid=0)
+{
+  // display html form for uploading a new message
+  global $table_width;
+  $list = get_all_lists();
+  $lists = sizeof($list);
+?>
+  <table cellpadding="4" cellspacing="0" border="0"
+         width="<?php echo $table_width?>">
+  <form enctype='multipart/form-data' action='upload.php' method='post'>
+  <tr>
+    <td bgcolor="#cccccc">
+      List:
+    </td>
+    <td bgcolor="#cccccc"> 
+      <select name="list">
+      <?php
+      for($i = 0; $i<$lists; $i++)
+      {
+        echo '<option value = '.$list[$i][0];
+        if ($listid== $list[$i][0]) echo ' selected';
+        echo '>'.$list[$i][1]."</option>\n";
+      }
+      ?>
+      </select>
+    </td>
+  </tr>
+  <tr>
+    <td bgcolor="#cccccc">
+      Subject:
+    </td>
+    <td bgcolor="#cccccc">
+      <input type="text" name="subject" value="<?php echo $subject?>" 
+       size = 60 ></td>
+  </tr>
+  <tr><td bgcolor="#cccccc">
+    Text Version:  
+  </td><td bgcolor="#cccccc">
+    <input type=file name='userfile[0]' size = 60>
+  </td></tr>
+  <tr><td bgcolor="#cccccc">
+    HTML Version:  
+  </td><td bgcolor="#cccccc">
+    <input type=file name='userfile[1]' size = 60>
+  </td></tr>
+  <tr><td bgcolor="#cccccc" colspan="2">Images: (optional)
+  
+<?php
+  $max_images = 10;
+  for($i = 0; $i<10; $i++)
+  {
+    echo "<tr><td bgcolor='#cccccc'>Image ". ($i+1) .' </td>';
+    echo "<td bgcolor='#cccccc'>";
+    echo "<input type='file' name='userfile[".($i+2)."]' size='60'></td></tr>";
+  }
+?>   
+  <tr><td colspan="2" bgcolor="#cccccc" align="center">
+  <input type="hidden" name="max_images"  value="<?php echo $max_images?>">
+  <input type="hidden" name="listid"  value="<?php echo $listid?>">
+  <?php display_form_button('upload-files'); ?>
+  </td>
+  </form>
+  </tr>
+  </table>
+<?php
+}

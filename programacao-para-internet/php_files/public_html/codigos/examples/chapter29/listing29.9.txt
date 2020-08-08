@@ -1,0 +1,16 @@
+function get_post_title($postid)
+{
+  // extract one post's name from the database
+
+  if(!$postid) return '';
+
+  $conn = db_connect();
+
+  //get all header information from 'header'
+  $query = "select title from header where postid = $postid";
+  $result = mysql_query($query);
+  if(mysql_numrows($result)!=1)
+    return '';
+  return  mysql_result($result, 0, 0);
+
+}

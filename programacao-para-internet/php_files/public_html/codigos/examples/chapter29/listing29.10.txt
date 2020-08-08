@@ -1,0 +1,15 @@
+function get_post_message($postid)
+{
+  // extract one post's message from the database
+
+  if(!$postid) return '';
+
+  $conn = db_connect();
+
+  $query = "select message from body where postid = $postid";
+  $result = mysql_query($query);
+  if(mysql_numrows($result)>0)
+  {
+    return mysql_result($result,0,0);
+  }
+}

@@ -1,0 +1,19 @@
+function display_account_setup($auth_user)
+{
+  //display empty 'new account' form
+  
+  display_account_form($auth_user);
+  $list = get_accounts($auth_user);
+  $accounts = sizeof($list);
+  
+  // display each stored account  
+  foreach($list as $key => $account)
+  {
+    // display form for each accounts details.
+    // note that we are going to send the password for all accounts in the HTML
+    // this is not really a very good idea
+    display_account_form($auth_user, $account['accountid'], $account['server'], 
+                         $account['remoteuser'], $account['remotepassword'], 
+                         $account['type'], $account['port']);
+  }  
+}

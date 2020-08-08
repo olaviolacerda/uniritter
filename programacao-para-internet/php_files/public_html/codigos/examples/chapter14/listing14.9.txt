@@ -1,0 +1,12 @@
+ErrorDocument 401 /chapter14/rejection.html
+
+AuthName "Realm Name"
+AuthType Basic
+
+Auth_MySQL_DB auth
+Auth_MySQL_Encryption_Types MySQL
+Auth_MySQL_Password_Table auth
+Auth_MySQL_Username_Field name
+Auth_MySQL_Password_Field pass
+
+require valid-user

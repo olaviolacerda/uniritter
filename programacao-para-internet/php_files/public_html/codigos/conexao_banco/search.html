@@ -1,0 +1,27 @@
+<html>
+<head>
+  <title>Book-O-Rama</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+</head>
+
+<body>
+  <h1>Busca</h1>
+<?php 
+include_once "common.inc.php";
+?>
+  <form action="results.php" method="post">
+    Tipo de Busca:<br />
+    <select name="searchtype">
+      <option value="author">Autor</option>
+      <option value="title">Título</option>
+      <option value="isbn">ISBN</option>
+    </select>
+    <br />
+    Digite a palavra da busca:<br />
+    <input name="searchterm" type="text">
+    <br />
+    <input class="btn btn-default" type="submit" value="Buscar">
+  </form>
+
+</body>
+</html>

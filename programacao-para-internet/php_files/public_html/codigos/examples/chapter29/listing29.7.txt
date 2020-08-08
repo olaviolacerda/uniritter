@@ -1,0 +1,28 @@
+function get_post($postid)
+{
+  // extract one post from the database and return as an array
+
+  if(!$postid) return false;
+
+  $conn = db_connect();
+  
+  //get all header information from 'header'
+  $query = "select * from header where postid = $postid";
+  $result = mysql_query($query);
+  if(mysql_numrows($result)!=1)
+    return false;
+  $post = mysql_fetch_array($result);
+
+  // get message from body and add it to the previous result
+  $query = "select * from body where postid = $postid";
+  $result2 = mysql_query($query);
+  if(mysql_numrows($result2)>0) 
+  {
+    $body = mysql_fetch_array($result2);
+    if($body)
+    {
+      $post['message'] = $body['message'];
+    }
+  }
+  return $post; 
+}

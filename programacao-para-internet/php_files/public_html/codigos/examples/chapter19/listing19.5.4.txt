@@ -1,0 +1,53 @@
+/*******************************************
+  Draw data into graph 
+*******************************************/
+// Get each line of db data and draw corresponding bars   
+while ($row = mysql_fetch_object ($result)) 
+{
+  if ($total_votes > 0)
+    $percent = intval(round(($row->num_votes/$total_votes)*100));
+  else 
+    $percent = 0;
+
+  // display percent for this value  
+  ImageTTFText($im, $main_size, 0, $width-30, $y+($bar_height/2),
+               $percent_color, $font, $percent.'%');  
+  if ($total_votes > 0)
+    $right_value = intval(round(($row->num_votes/$total_votes)*100));
+  else
+    $right_value = 0;
+
+  // length of bar for this value   
+  $bar_length = $x + ($right_value * $bar_unit);   
+
+  // draw bar for this value   
+  ImageFilledRectangle($im, $x, $y-2, $bar_length, $y+$bar_height, $bar_color);   
+
+  // draw title for this value   
+  ImageTTFText($im, $main_size, 0, $text_indent, $y+($bar_height/2), 
+               $text_color, $font, $row->candidate);  
+
+  // draw outline showing 100% 
+  ImageRectangle($im, $bar_length+1, $y-2, 
+                ($x+(100*$bar_unit)), $y+$bar_height, $line_color);   
+
+  // display numbers   
+  ImageTTFText($im, $small_size, 0, $x+(100*$bar_unit)-50, $y+($bar_height/2),
+               $number_color, $font, $row->num_votes.'/'.$total_votes);
+
+  // move down to next bar
+  $y=$y+($bar_height+$bar_spacing);   
+}   
+
+/*******************************************
+  Display image 
+*******************************************/
+Header('Content-type:  image/png');
+ImagePng($im);   
+
+
+/*******************************************
+  Clean up 
+*******************************************/
+ImageDestroy($im);   
+?>   

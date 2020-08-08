@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+	<meta charset="utf-8" />
+	<title>Tabela das Linguagens</title>
+	<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<link rel="stylesheet" href="style.css" media="all">
+</head>
+<body>
+	<div class="container">
+		
+		<table class="table">
+		 <thead>
+		  <tr>
+			 <th>Nome</th>
+			 <th>Linguagem</th>
+		  </tr>
+		 </thead>
+		 <tbody>
+			<tr>
+				<td>Leonardo</td>
+				<td>Rails</td>
+			  </tr>
+		  <tr >
+			 <td>Rosi</td>
+			 <td>Python</td>
+		  </tr>
+		  <tr>
+			 <td>Erico</td>
+			 <td>Assembly</td>
+		  </tr>
+		  <tr>
+			 <td>Thoshiba</td>
+			 <td>CSS</td>
+		  </tr>
+		 </tbody>
+		</table>
+		
+	</div>
+	
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+	<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	
+	<script>
+		$('tbody tr').on('click', function() {
+					$(this).toggleClass("verde");
+			var opa = $(this).find('td')[0];
+			console.log("Mudando a cor de " + $(opa).html());
+		});
+	</script>
+</body>
+</html>

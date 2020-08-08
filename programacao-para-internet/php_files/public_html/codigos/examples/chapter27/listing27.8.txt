@@ -1,0 +1,46 @@
+function display_list($auth_user, $accountid)
+{
+  // show the list of messages in this mailbox
+  
+  global $table_width;
+    
+  if(!$accountid)
+  {
+    echo 'No mailbox selected<br /><br /><br /><br /><br /><br />.';
+  }
+  else
+  {
+    
+    $imap = open_mailbox($auth_user, $accountid);
+  
+    if($imap)
+    {
+      echo "<table width=$table_width' cellspacing='0'
+                   cellpadding='6'  border='0'>";
+
+      $headers = imap_headers($imap);
+      // we could reformat this data, or get other details using 
+      // imap_fetchheaders, but this is not a bad summary so we just echo each
+
+      $messages = sizeof($headers);
+      for($i = 0; $i<$messages; $i++)
+      {
+        echo '<tr><td bgcolor = "';
+        if($i%2)
+          echo '#ffffff';
+        else 
+          echo '#ffffcc';
+        echo '"><a href="index.php?action=view-message&messageid='.($i+1).'">';
+        echo $headers[$i];
+        echo "</a></td></tr>\n";
+      }
+      echo '</table>';
+    } 
+    else 
+    {
+      $account = get_account_settings($auth_user, $accountid);
+      echo 'could not open mail box '.$account['server'].
+           '.<br /><br /><br /><br />';
+    }  
+  }
+}

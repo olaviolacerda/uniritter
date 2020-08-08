@@ -1,0 +1,17 @@
+function get_accounts($auth_user)
+{
+  $list = array();
+  if(db_connect())
+  {
+    $query = "select * from accounts where username = '$auth_user'";
+    $result = mysql_query($query);
+          if($result)
+    {
+      while($settings = mysql_fetch_array($result))
+        array_push( $list, $settings);
+    }
+    else
+      return false;
+  }
+  return $list;
+}

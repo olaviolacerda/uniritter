@@ -1,0 +1,52 @@
+// Perform a query to get a page full of products from a browse node
+// Switch between XML/HTTP and SOAP in constants.php
+// Returns an array of Products
+function browseNodeSearch($browseNode, $page, $mode)
+{
+  if(METHOD=='SOAP')
+  {
+    // the NuSOAP class generates a lot of notices. Turn them off.
+    error_reporting(error_reporting() & ~E_NOTICE);   
+    $soapclient = new soapclient(
+     'http://soap.amazon.com/schemas2/AmazonWebServices.wsdl',
+     'wsdl');
+    $soap_proxy = $soapclient->getProxy();
+    $parameters['mode']=$mode;
+    $parameters['page']=$page;      
+    $parameters['type']='heavy';
+    $parameters['tag']=$this->_assocID;
+    $parameters['devtag']=$this->_devTag;
+    $parameters['sort']='+salesrank';
+    $parameters['browse_node'] = $browseNode;
+    
+    // perform actual soap query
+    $result = $soap_proxy->BrowseNodeSearchRequest($parameters) ;
+    if(isSOAPError($result))
+      return false;
+    $this->_totalResults = $result['TotalResults'];
+    $counter = 0;
+    foreach($result['Details'] as $product)
+    {
+      $this->_products[$counter] = new Product;
+      $this->_products[$counter]->soap = $result['Details'][$counter];
+      $counter++;
+    }
+    unset($soapclient);
+    unset($soap_proxy);
+  }    
+  else
+  {
+    // form URL and call parseXML to download and parse it
+    $this->_type = 'browse';
+    $this->_browseNode = $browseNode;
+    $this->_page = $page;
+    $this->_mode = $mode;
+    $this->_url = 'http://xml.amazon.com/onca/xml2?t='.ASSOCIATEID
+                .'&dev-t='.DEVTAG.'&BrowseNodeSearch='
+                .$this->_browseNode.'&mode='.$this->_mode
+                .'&type=heavy&page='.$this->_page.'&sort=+salesrank&f=xml';
+    $this->parseXML();
+  }
+  
+  return $this->_products;
+}

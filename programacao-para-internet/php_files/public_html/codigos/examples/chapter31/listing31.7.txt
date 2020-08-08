@@ -1,0 +1,24 @@
+// Get an AmazonResultSet either from cache or a live query
+// If a live query add it to the cache
+function getARS($type, $parameters)
+{
+  $cache = cached($type, $parameters);
+  if($cache)  // if found in cache
+  {
+    return  $cache;
+  }
+  else
+  {
+    $ars = new AmazonResultSet;
+    if($type == 'asin')
+      $ars->ASINSearch(padASIN($parameters['asin']), $parameters['mode']);
+    if($type == 'browse')                   
+      $ars->browseNodeSearch($parameters['browsenode'], 
+$parameters['page'], $parameters['mode']);
+    if($type == 'search')
+      $ars->keywordSearch($parameters['search'], $parameters['page'],
+                          $parameters['mode']);
+    cache($type, $parameters, $ars);
+  }
+  return $ars;
+}

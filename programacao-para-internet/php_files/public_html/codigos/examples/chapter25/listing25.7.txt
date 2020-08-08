@@ -1,0 +1,16 @@
+function get_category_name($catid)
+{
+   // query database for the name for a category id
+   $conn = db_connect();
+   $query = "select catname
+             from categories 
+             where catid = $catid"; 
+   $result = @mysql_query($query);
+   if (!$result)
+     return false;
+   $num_cats = @mysql_num_rows($result);
+   if ($num_cats ==0)
+      return false;  
+   $result = mysql_result($result, 0, 'catname');
+   return $result; 
+}

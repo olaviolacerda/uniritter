@@ -1,0 +1,201 @@
+body {
+    margin: 0 0 60px;
+    /* bottom = footer height */
+    background: url("../img/fundo.png") center 0px no-repeat rgb(0, 0, 0);
+}
+
+header {
+    min-height: 45px;
+}
+
+footer {
+    text-align: center;
+    bottom: 0px;
+    margin: 1%;
+    width: 100%;
+    height: 5px;
+}
+
+div {
+    border: 1px solid rgba(20, 20, 20, 0.8);;
+}
+
+.img-responsive {
+    display: block;
+    max-width: 100%;
+    height: auto;
+}
+
+.ulinline {
+    padding-right: 2%;
+}
+
+ul.ulinline li {
+    float: right;
+    display: inline;
+    color: #000;
+    padding: 1px 16px;
+    text-decoration: none;
+}
+
+div#montepc ul {
+    padding-left: 3%;
+}
+
+a:link {
+    text-decoration: none;
+    color: black;
+}
+
+a:visited {
+    text-decoration: none;
+    color: black;
+}
+
+a:hover {
+    color: white;
+}
+
+.divgeral {
+    width: 100%;
+    overflow: hidden;
+}
+
+.div20 {
+    width: 20%;
+    float: left;
+}
+
+.divmarg20 {
+    margin-left: 20%;
+}
+
+.div50 {
+    width: 50%;
+    float: left;
+}
+
+.divmarg50 {
+    margin-left: 50%;
+}
+
+.divglobal {
+    width: 80%;
+    margin: 0 auto;
+    background-color: rgba(0, 0, 0, 0.6);
+}
+
+table,
+th,
+td {
+    border: 1px solid white;
+}
+
+h1 {
+    font-size: 32pt;
+}
+
+div#navegador {
+    padding-bottom: 1%;
+    font-size:13pt;
+    font-weight: bold;
+    font-family: Verdana;
+    background-color: rgba(200, 200, 200, 0.5);
+}
+
+#titulo {
+    padding-left: 3%;
+    color:white;
+    font-family:courier;
+
+}
+
+
+footer {
+    clear: both;
+    color: white;
+}
+
+div#direita {
+    margin-left: 225px;
+    height: 395px;
+    align-items: center;
+}
+
+#direita img {
+       position: relative;
+}
+div#montepc{
+   width: 225px;
+   height: 150px;
+    float: left;
+}
+div#direita2 {
+    height: 150px;
+}
+
+div#direita2 ul {
+    text-align: center;
+}
+
+div#direita2 li {
+    display: inline;
+    padding: 0px 25px;
+    text-decoration: none;
+}
+table {
+    color:white;
+    font-family: Verdana;
+    text-align: center;
+    background-color:white;
+ border-collapse: collapse;
+}
+table img{
+    display: block;
+    margin-top: 15px;
+    margin-left: auto;
+    margin-right: auto;
+     height=75 ;
+     width=100;
+}
+.verde {
+    color:green;
+    font-weight: bold;
+}
+.vermelho {
+    color:darkred;
+    font-weight: bold;
+    
+}
+
+table, th, td {
+    border: 0.2px solid grey;
+}
+
+td {
+    color:grey;
+}
+
+caption {
+    height: 75px;
+    font-size: 20px;
+    font-weight: bold;
+    background-color: rgba(0, 0, 0, 0.6);
+    box-shadow: 0px 3px 20px #000000;
+}
+
+
+ul#guia img { /*Posição dentro da borda*/
+	opacity: 1; 
+	background-color: rgba(0,0,0,.4);
+	color:white; 
+	padding: 1px;
+	box-sizing: border-box;
+	transition: opacity 1s;
+
+}
+ 
+ul#guia img:hover{   /*chama uma função onde o mouse interfere na imagem*/
+    -webkit-transform: scale(1.5);
+}
+

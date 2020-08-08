@@ -1,0 +1,9 @@
+Você deve criar um Media player que toque mp3 e videos. 
+
+A aplicação deve ser capaz de pegar uma lista fixa de (no mínimo 3) arquivos entre mp3 e videos. A interface deve reproduzir um video (tela) e um painel. A interface com botões permitirá ao usuário iniciar a reprodução ao arrastar os títulos. O display deve imitar o de um aparelho real.
+
+Deve ter controle de volume, mostrar o titulo da música/video, tempo percorrido. 
+
+Detalhe importante: tudo deve estar em um único arquivo html (com o js inline e css no head). Não compactar o arquivo de entrega
+
+Data da entrega: 22/11

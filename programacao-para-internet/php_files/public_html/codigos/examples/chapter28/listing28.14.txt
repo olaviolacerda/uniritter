@@ -1,0 +1,35 @@
+function store_list($admin_user, $details)
+{
+  if(!filled_out($details))
+  {
+    echo 'All fields must be filled in.  Try again.<br /><br />';
+    return false;
+  }
+  else
+  {
+    if(!check_admin_user($admin_user))
+      return false;  
+      // how did this function get called by somebody not logged in as admin?
+    
+    if(!db_connect())
+    { 
+      return false;
+    }
+    
+    $query = "select count(*) from lists where listname = '"
+              .$details['name']."'";
+    $result = mysql_query($query);
+    if(mysql_result($result, 0, 0) > 0)
+    {
+      echo 'Sorry, there is already a list with this name.';
+      return false;
+    }
+    
+    $query = "insert into lists values (NULL, 
+                                       '".$details['name']."',
+                                       '".$details['blurb']."')";
+
+    $result = mysql_query($query);
+    return $result; 
+  }
+}

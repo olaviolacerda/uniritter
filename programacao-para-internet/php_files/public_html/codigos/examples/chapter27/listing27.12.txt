@@ -1,0 +1,34 @@
+function send_message($to, $cc, $subject, $message)
+{
+  //send one email via PHP
+  global $HTTP_SESSION_VARS;
+  
+  if (!db_connect())
+  { 
+    return false;
+  }
+  $query = 'select address from users where username=\''.
+            $HTTP_SESSION_VARS['auth_user']."'";
+  
+  $result = mysql_query($query);
+  if (!$result)
+  {
+    return false;  
+  }
+  else if (mysql_num_rows($result)==0)
+  {
+    return false; 
+  }
+  else
+  {
+    $other = 'From: '.mysql_result($result, 0, 'address')."\r\nCc: $cc";
+    if (mail($to, $subject, $message, $other))
+    {
+      return true;
+    }
+    else
+    {
+      return false;
+    }
+  }
+}

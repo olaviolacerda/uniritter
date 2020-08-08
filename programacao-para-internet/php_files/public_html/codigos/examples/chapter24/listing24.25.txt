@@ -1,0 +1,12 @@
+function delete_bm($user, $url)
+{
+  // delete one URL from the database
+  if (!($conn = db_connect()))
+    return false;
+
+   // delete the bookmark
+  if (!mysql_query( "delete from bookmark 
+                       where username='$user' and bm_url='$url'"))
+    return false;
+  return true;  
+}

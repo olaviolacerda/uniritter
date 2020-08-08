@@ -1,0 +1,14 @@
+function delete_message($auth_user, $accountid, $message_id)
+{
+  // delete a single message from the server
+  
+  $imap = open_mailbox($auth_user, $accountid);
+  if($imap)
+  {
+    imap_delete($imap, $message_id);
+    imap_expunge($imap);
+    imap_close($imap);
+    return true;
+  }
+  return false;
+}

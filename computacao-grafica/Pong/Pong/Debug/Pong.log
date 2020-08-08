@@ -1,0 +1,13 @@
+﻿A:\Install\Microsoft Visual Studio\2017\Community\Common7\IDE\VC\VCTargets\Microsoft.CppBuild.targets(387,5): warning MSB8028: The intermediate directory (Debug\) contains files shared from another project (PingPong.vcxproj).  This can lead to incorrect clean and rebuild behavior.
+  Source.cpp
+c:\users\olavio\documents\visual studio 2017\projects\pong\pong\metodos.h(24): warning C4244: 'argument': conversion from 'double' to 'GLfloat', possible loss of data
+c:\users\olavio\documents\visual studio 2017\projects\pong\pong\metodos.h(36): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.10240.0\ucrt\string.h(119): note: see declaration of 'strcpy'
+c:\users\olavio\documents\visual studio 2017\projects\pong\pong\metodos.h(47): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.10240.0\ucrt\string.h(119): note: see declaration of 'strcpy'
+c:\users\olavio\documents\visual studio 2017\projects\pong\pong\metodos.h(92): warning C4018: '<': signed/unsigned mismatch
+  Generating Code...
+  Skipping... (no relevant changes detected)
+  Player.cpp
+  Pong.vcxproj -> C:\Users\olavio\Documents\Visual Studio 2017\Projects\Pong\Debug\Pong.exe
+  Pong.vcxproj -> C:\Users\olavio\Documents\Visual Studio 2017\Projects\Pong\Debug\Pong.pdb (Partial PDB)

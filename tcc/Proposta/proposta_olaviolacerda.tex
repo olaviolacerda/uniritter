@@ -1,0 +1,166 @@
+\documentclass[11pt,a4paper]{article}
+
+
+\usepackage{iccv}
+\usepackage{times}
+\usepackage{epsfig}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage[brazil]{babel}
+\usepackage[OT1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[a4paper,
+hmargin={1.5cm,1.5cm},
+vmargin={2cm,2.5cm},
+footskip=5mm]{geometry}
+
+\usepackage[pagebackref=true,breaklinks=true,letterpaper=false,colorlinks,bookmarks=false]{hyperref}
+
+
+
+% \iccvfinalcopy % *** Retire o comentário desta linha para gerar a versão da biblioteca (após obter nota acima de 9 em TC2)
+
+
+\begin{document}
+
+%%%%%%%%% Título %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\title{Estudo investigativo sobre as Boas Práticas de Qualidade de Código-fonte na linguagem Ruby\\ \smallskip
+\small{ PROPOSTA DE TRABALHO DE CONCLUSÃO DE CURSO}}
+
+\author{ \bf Olavio Lacerda Bueno Júnior\\
+		\tt olavio.lacerda@hotmail.com \\
+		Curso de Ciência da Computação \\
+		Centro Universitário Ritter Dos Reis - UNIRITTER 
+		\and
+ 		\bf Guilherme Silva de Lacerda\\
+		Professor Orientador\\
+}
+
+\maketitle
+\thispagestyle{empty}
+
+%\begin{abstract}
+%   Resumo - Deve aparecer no artigo, porém não na proposta 
+%\end{abstract}
+
+\section{Relevância do trabalho} \label{sec:intro}
+
+Um código limpo é simples e direto. Ele é tão bem legível quanto uma prosa bem escrita. Ele jamais torna confuso o objetivo do desenvolvedor, em vez disso, ele está repleto de abstrações claras e linhas de controle objetivas \cite{Grady:Clean}.
+
+A ideia de qualidade é aparentemente intuitiva; contudo, quando examinado mais
+longamente, o conceito se revela complexo. Definir qualidade para estabelecer objetivos
+é, assim, uma tarefa menos trivial do que aparenta a princípio \cite{Novatec:Qualidade}.
+
+Além de prover uma melhor legibilidade e beleza, um código-fonte bem escrito, identificável, de fácil manutenção e compreensão fazem com que um projeto seja mantido por longo tempo em uma empresa ou projeto. A partir do momento que temos um código legível, novos desenvolvedores que se depararem com o mesmo podem ter certeza de que vão conseguir dar continuidade ao que fora desenvolvido até então, seguindo as práticas de escrita e convenções.
+
+Pode-se avaliar a qualidade de um código-fonte utilizando ferramentas de análise. Muitas delas, trabalham com avaliação \textit{estática}, onde não há necessidade de compilar o código para avaliar a escrita do mesmo. \textit{A análise estática consiste em examinar o código de programas para determinar propriedades
+da execução dinâmica desses programas, sem executá-los de fato}\cite{Bergeron:Static}.
+
+Após uma revisão, com arquivos novos apontando o que fora percebido na análise, pode-se efetuar as modificações necessárias para melhorar a qualidade do que está escrito, garantindo a legibilidade do código e assim, podendo auxiliar na qualidade do sistema e/ou aplicação. 
+
+\textit{Geralmente, permite aumentar a qualidade do software ao encontrar bad smells no código e defeitos em potencial em estágios iniciais de desenvolvimento }\cite{Opportunities}. Entende-se que, analisar um código estaticamente não garante que há erros ou que possa ocasionar algum, mas teremos uma avaliação do código que podem ser apontados diversas duplicatas ou sujeiras que possam vir a interferir na qualidade do código-fonte.
+
+\section{Objetivos}\label{sec:objetivos}
+
+\subsection{Objetivo geral}
+
+Este trabalho propõe investigar as boas práticas de qualidade de escrita de código em \textit{Ruby}. Será utilizado como base investigativa alguns desenvolvedores da comunidade, projetos bem avaliados pelos usuários do site \textit{GitHub} e interpretação dos códigos, visando comparar a qualidade dos códigos-fonte entre a prática e a documentação. 
+
+A partir da coleta de dados, será confeccionada uma lista com as principais heurísticas e padrões de boas práticas utilizadas na linguagem \textit{Ruby}.
+
+\subsection{Objetivos específicos}
+
+Entre os objetivos específicos deste trabalho pode-se destacar:
+
+\begin{itemize}
+  \item Estudo das boas práticas,utilizadas e documentadas, para melhorar a escrita do código-fonte;
+  \item Avaliação da Qualidade da escrita do Código-fonte dos projetos mais destacados do \textit{GitHub} utilizando \textit{RubyCritic};
+  \item Partindo do método \textit{survey}, confecção do questionário e organização dos dados obtidos após respondidos por desenvolvedores da comunidade;
+  \item Observação fazendo avaliação nos códigos e levantando pontos que possam ter impactado na avaliação da qualidade;
+  \item Levantamento das \textit{boas práticas} documentadas sobre a linguagem Ruby;
+  \item Comparação da respostas obtidas com o questionário, documentação de práticas e análise dos códigos.
+\end{itemize}
+
+\section{Solução proposta} 
+
+A partir de um estudo investigativo, utilizando método de \textit{survey}, será submetido um questionário sobre as boas práticas dos desenvolvedores da linguagem \textit{Ruby} para coletar informações sobre como estão desenvolvendo a escrita dos códigos.
+
+O questionário confeccionado conterá perguntas objetivas onde serão levantados pontos sobre boas práticas na linguagem Ruby. Após coleta das respostas, será feita utilização do RubyCritic para avaliação da Qualidade dos 5 projetos mais votados no Site GitHub. 
+
+Com base nessa avaliação, será feita uma interpretação, visando identificar alguma alteração que necessita ser efetuada e que possa influenciar na qualidade do código. A partir dessas informações, será realizada uma comparação entre as boas práticas resultadas das perguntas do questionário, a documentação e literatura do Ruby e a observação sobre a qualidade dos códigos.
+
+
+\section{Cronograma de desenvolvimento}\label{sec:cronograma}
+
+\subsection{Trabalho de conclusão de curso I}
+
+A Tabela \ref{tab:cronograma1} apresenta o cronograma de desenvolvimento do trabalho conforme a numeração das atividades abaixo:
+\begin{enumerate}
+    \item Estudo das práticas documentadas que são utilizadas para melhor escrita e qualidade de códigos;
+	\item Criação do questionário contendo perguntas voltadas às boas práticas em Ruby e disponibilizada na comunidade para obtenção de resposta;
+	\item Análise dos códigos escolhidos utilizando a plataforma RubyCritic;
+	\item Estudo investigativo, procurando padrões e más práticas efetuadas nos códigos a partir da análise e observação;
+	\item Redação do artigo;
+	\item Submissão do artigo para a banca;
+	\item Defesa do trabalho.
+\end{enumerate}
+
+\begin{table}[h]
+\begin{center}
+	\caption{Cronograma de atividades para o trabalho de conclusão I. \label{tab:cronograma1}}
+		\begin{tabular}{|c|c|c|c|c|c|c|}
+			\hline			
+			 \bf Atividade & \bf 9/17 & \bf 10/17 & \bf 11/17 & \bf 12/17  \\	\hline \hline
+					 1 &   &   &   &   \\ \hline
+					 2 & x & x &   &   \\ \hline
+					 3 &   & x &   &   \\ \hline
+					 4 &   &   & x &   \\ \hline
+					 5 &   &   &   & x \\ \hline
+					 6 & x & x & x &   \\ \hline
+					 7 &   &   & x &   \\ \hline
+					 8 &   &   &   & x \\ \hline
+		\end{tabular}
+\end{center}		
+\end{table}
+
+
+\subsection{Trabalho de conclusão de curso II}
+
+A Tabela \ref{tab:cronograma2} apresenta o cronograma de desenvolvimento do trabalho conforme a numeração das atividades abaixo:
+\begin{enumerate}
+    \item Organização dos dados obtidos pelo questionário;
+    \item Comparativo da análise da qualidade do código dos projetos escolhidos, destacando principais diferenças e similaridades;
+	\item Observação sobre a qualidade dos códigos que foram escolhidos para avaliação;
+	\item Criação de uma lista com heurísticas e padrões utilizadas para boas práticas, a partir dos dados recolhidos e analisados;
+	\item Redação do artigo;	
+	\item Seminário de andamento;	
+	\item Submissão do artigo para a banca;
+	\item Defesa do trabalho.
+\end{enumerate}
+
+
+\begin{table}[h]
+\begin{center}
+	\caption{Cronograma de atividades para o trabalho de conclusão II. \label{tab:cronograma2}}
+		\begin{tabular}{|c|c|c|c|c|c|c|}
+			\hline			
+			 \bf Atividade & \bf 2/18 & \bf 3/18 & \bf 4/18 & \bf 5/18 & \bf 6/18 & \bf 7/18  \\	\hline \hline
+					 1 & x &   &   &   &   &   \\ \hline
+					 2 &   & x &   &   &   &   \\ \hline
+					 3 &   &   & x &   &   &   \\ \hline
+					 4 &   &   &   & x &   &   \\ \hline
+					 5 &   &   & x & x & x &   \\ \hline
+					 6 &   &   &   & x  &   &   \\ \hline
+					 7 &   &   &   &   & x &   \\ \hline
+					 8 &   &   &   &   &   & x \\ \hline
+		\end{tabular}
+\end{center}		
+
+\renewcommand\ref{Referências}
+{\small
+\bibliographystyle{ieee}
+\bibliography{referencias_olaviolacerda}
+}
+\end{table}
+\end{document}

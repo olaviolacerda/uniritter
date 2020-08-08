@@ -1,0 +1,29 @@
+function change_password($email, $old_password, $new_password,
+                         $new_password_conf)
+// change password for email/old_password to new_password
+// return true or false
+{
+
+  // if the old password is right 
+  // change their password to new_password and return true
+  // else return false
+  if (login($email, $old_password))
+  {
+    if($new_password==$new_password_conf)
+    { 
+      if (!($conn = db_connect()))
+        return false;
+      $query = "update subscribers
+               set password = password('$new_password')
+               where email = '$email'";
+      $result = mysql_query($query);
+      return $result;
+    }
+    else
+      echo '<p> Your passwords do not match.</p>;
+  }
+  else
+    echo '<p> Your old password is incorrect.</p>';
+  
+  return false; // old password was wrong
+}

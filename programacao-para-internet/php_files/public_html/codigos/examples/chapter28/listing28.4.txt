@@ -1,0 +1,56 @@
+// add a new subscriber to the database, or let a user modify their data
+function store_account($normal_user, $admin_user, $details)
+{
+  if(!filled_out($details))
+  {
+    echo 'All fields must be filled in.  Try again.<br /><br />';
+    return false;
+  }
+  else
+  {
+    if(subscriber_exists($details['email']))
+    {
+      //check logged in as the user they are trying to change
+      if(get_email()==$details['email'])
+      {
+        $query = "update subscribers set realname = '$details[realname]',
+                                         mimetype = '$details[mimetype]'
+                  where email = '" . $details[email] . "'";
+        if(db_connect() && mysql_query($query))
+        {
+          return true;
+        }
+        else
+        {
+          echo 'could not store changes.<br /><br /><br /><br /><br /><br />';
+          return false;
+        }
+      }
+      else
+      {
+        echo '<p>Sorry, that email address is already registered here.</p>';
+        echo '<p>You will need to log in with that address to change '
+             .' its settings.</p>';
+        return false;                 
+      }      
+    }
+    else // new account
+    {
+      $query = "insert into subscribers 
+                        values ('$details[email]',
+                        '$details[realname]',
+                        '$details[mimetype]',
+                         password('$details[new_password]'),
+                                                0)";          
+      if(db_connect() && mysql_query($query))
+      {
+        return true;
+      }
+      else
+      {
+        echo 'Could not store new account.<br /><br /><br /><br /><br /><br />';
+        return false;
+      }
+    }
+  }
+} 

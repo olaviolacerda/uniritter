@@ -1,0 +1,631 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Tocador de Mídia</title>
+    <link rel="icon"
+        href="https://raw.githubusercontent.com/olaviolacerda/devweb6semestre/master/Trabalho%20GrauB/media/icon.png" />
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+        rel="stylesheet">
+
+    <style type="text/css">
+        @import url(http://fonts.googleapis.com/css?family=Varela+Round);
+        body {
+            font-family: 'Varela Round', sans-serif;
+            text-align: center;
+        }
+
+        .container {
+            max-width: 1200px;
+            padding: 1%;
+            width: 60%;
+            margin: 0 auto;
+            margin-top: 5%;
+            margin-bottom: 5%;
+            padding-left: 0%;
+            padding-right: 0%;
+            padding-bottom: 0.005em;
+            background-color: #222;
+            box-shadow: 0 3.5em 3.5em -1.875em rgba(0, 0, 0, .5), 0 2.25em 6em 3em rgba(0, 0, 0, .2);
+        }
+
+        .header {
+            text-align: center;
+            color: #ED484B;
+            text-shadow: rgba(245, 255, 255, 0.1) 0.1em 0.1em 0.2em;
+            margin-top: 0.13em;
+            margin-left: 1%;
+            margin-right: 1%;
+            margin-bottom: 0.75em;
+            font-weight: bold;
+            font-size: 2.2em;
+            width: 100%;
+        }
+
+        #player {
+            width: 35%;
+            float: left;
+            margin-left: 13%;
+            color: #FF6960;
+            margin-bottom: 0.63em;
+        }
+
+        #video {
+            box-shadow: 0 0.15em 0.3em rgba(255, 255, 255, 0.16), 0 0.15em 0.3em rgba(255, 255, 255, 0.23);
+        }
+
+        #fundo {
+            margin-left: auto;
+            margin-right: auto;
+            margin-bottom: 0.63em;
+            width: 100%;
+            display: flex;
+            display: -webkit-flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 0.15em 0.3em rgba(204, 204, 204, 0.16), 0 0.15em 0.3em rgba(204, 204, 204, 0.23);
+        }
+
+        .lista {
+            width: 20%;
+            float: left;
+            text-align: center;
+            color: #fff;
+            background: rgba(239, 239, 239, 0.05);
+            margin-bottom: 0%;
+            margin-left: 10%;
+            padding-right: 5%;
+            padding-left: 5%;
+            border-left-width: 2‒;
+            box-shadow: 0 0.15em 0.3em rgba(0, 0, 0, 0.1), 0 0.15em 0.3em rgba(0, 0, 0, 0.1);
+        }
+
+        .lista h3 {
+            text-align: center;
+            color: #fff;
+            width: 100%;
+        }
+
+        .lista ul {
+            position: flex;
+            list-style: none outside none;
+            margin-left: 0;
+            margin-right: auto;
+            margin-top: 10%;
+            width: 100%;
+        }
+
+        .droppable {
+            padding-left: 0px;
+            text-align: center;
+        }
+
+        ul li {
+            width: 80%;
+            color: #fff;
+            text-shadow: black 0.1em 0.1em 0.2em;
+        }
+
+        ul li:hover {
+            color: #ED484B;
+            text-shadow: 0 0 0.32em #F5696C;
+        }
+
+        .playlist {
+            width: 80%;
+        }
+
+        .draggable,
+        .ui-sortable-handle,
+        .ui-sortable {
+            width: 100%;
+        }
+
+        .menu {
+            width: 95%;
+            float: left;
+            font-size: 1em;
+            text-align: center;
+            color: white;
+            padding-bottom: 5em;
+            height: 3.8em;
+            margin-left: 2.5%;
+        }
+
+        #titulo {
+            width: 100%;
+            color: rgba(255, 255, 255, 0.5);
+            text-shadow: 0.063em 0.063em 0.063em rgba(245, 105, 108, 0.4);
+        }
+
+        p#titulo {
+            margin-top: 0%;
+            margin-bottom: 0%;
+        }
+
+        input:focus {
+            outline: none;
+        }
+
+        .header,
+        .lista,
+        #player,
+        .infos {
+            margin-bottom: 0.32em;
+        }
+
+        .botoes {
+            float: left;
+            width: 100%;
+            margin-top: 1%;
+        }
+
+        button {
+            background: #F5696C;
+            border-radius: 3em;
+            color: #fff;
+            transition: all .1s;
+            top: 50%;
+            left: 50%;
+            width: 3.7em;
+            height: 3.7em;
+            vertical-align: middle;
+            text-align: center;
+            text-decoration: none;
+            border: none;
+            margin-left: 0.1%;
+        }
+
+        button:hover {
+            background: #ED484B;
+            box-shadow: 0 0 0.82em #F5696C;
+            text-shadow: 0 0 0.32em #FFF;
+        }
+
+        button:focus {
+            outline: none;
+        }
+
+        .botoes span {
+            font-size: 2.7em;
+        }
+
+        button#play {
+            width: 4.7em;
+            height: 4.7em;
+        }
+
+        progress {
+            display: block;
+            -webkit-appearance: none;
+            margin-top: 1%;
+            width: 80%;
+            margin-left: 10%;
+            margin-right: 5%;
+        }
+
+        progress::-webkit-progress-bar {
+            background: gray;
+            border-radius: 3.125em;
+            width: 100%;
+            height: 30%;
+            box-shadow: 0 0 5px white;
+        }
+
+        progress::-moz-progress-bar {
+            background: gray;
+            border-radius: 3.125em;
+            box-shadow: 0 0 5px white;
+        }
+
+        progress::-webkit-progress-value {
+            border-radius: 3.125em;
+            background: #ED484B;
+        }
+
+        #tempo-atual {
+            color: rgba(255, 255, 255, 0.5);
+            text-shadow: 0.07em 0.07em 0.07em rgba(245, 105, 108, 0.4);
+        }
+
+        #tempo-total {
+            color: #ED484B;
+        }
+
+        .ee {
+            color: #222;
+            float: left;
+            width: 1%;
+            margin-top: 10%;
+        }
+
+        #foto {
+            display: none;
+        }
+
+        .ee span {
+            color: #F5696C;
+        }
+
+        .footer {
+            width: 100%;
+            clear: both;
+            color: #FF6960;
+            padding-top: 0.063em;
+            padding-bottom: 0em;
+            margin-top: 50%;
+        }
+
+        hr {
+            width: 50%;
+            box-shadow: 0 0.15em 0.3em rgba(0, 0, 0, 0.1), 0 0.15em 0.3em rgba(0, 0, 0, 0.1);
+        }
+
+        .footer em {
+            color: white;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <div class="header ">
+            <header>
+                Bem-vindo ao Tocador de Mídia
+            </header>
+        </div>
+
+        
+            <div id="player">
+                <img id="fundo"
+                    src="https://raw.githubusercontent.com/olaviolacerda/devweb6semestre/master/Trabalho%20GrauB/media/fundo.png" />
+            </div>
+            <div class="lista">
+                <h3>Lista de Tocação</h3>
+                <hr/>
+                <ul class='playlist droppable'>
+                    <li class='draggable'
+                        id="met">Metallica.mp3</li>
+                    <li class='draggable'>Lacuna.mp3</li>
+                    <li class='draggable'>Ovo.mp4</li>
+                </ul>
+            </div>
+            <div class="ee "
+                onmouseover="mostra();"
+                onmouseout="esconde();"><img src="https://raw.githubusercontent.com/olaviolacerda/devweb6semestre/master/Trabalho%20GrauB/media/ee.png"
+                    id="foto" /><span>?</span></div>
+ 
+
+        <div class="menu">
+            <div class="infos">
+                <progress id="progress-bar"
+                    max="0"
+                    value="0"> 0% played</progress>
+                <span class="info"
+                    id="tempo-atual">00:00</span> /
+                <span class="info"
+                    id="tempo-total">00:00</span>
+                <em style="width: 75%"></em>
+                </span>
+                <p id="titulo">Nada sendo tocado. Arraste algo para o player e divirta-se.</p>
+
+                <div class="botoes">
+                    <button id="vd"
+                        onclick="document.getElementById('video').volume-=0.1"> <span><i class="material-icons">volume_down</i></span>
+          </button>
+                    <button onclick="document.getElementById('video').pause()"> <span><i class="material-icons">pause</i></span>
+          </button>
+
+                    <button id="play"
+                        onclick="document.getElementById('video').play()"> <span> <i class="material-icons" name="play">play_arrow</i></span>
+          </button>
+                    <button id="forward"
+                        onclick="document.getElementById('video').currentTime+=10"><span><i class="material-icons">skip_next</i></span>
+          </button>
+
+                    <button id="vu"
+                        onclick="document.getElementById('video').volume+=0.1"><span><i class="material-icons">volume_up</i></span>
+          </button>
+                </div>
+            </div>
+        </div>
+        <div class="footer">
+            <footer>
+                <hr/>
+                <h4>Developed by <em>semacento&copy;</em></h4>
+            </footer>
+        </div>
+
+    </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="http://code.jquery.com/ui/1.12.1/jquery-ui.js"
+        integrity="sha256-T0Vest3yCU7pafRw9r+settMBX6JkKN06dqBnpQ8d30="
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui-touch-punch/0.2.3/jquery.ui.touch-punch.min.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            var video = document.getElementById("video");
+            var mediaElement = document.getElementById('mediaElementID');
+        });
+        /*funçoes para MOBILE*/
+        /*! * jQuery UI Touch Punch 0.2.3 * * Copyright 2011–2014, Dave Furfero * Dual licensed under the MIT or GPL Version 2 licenses. * * Depends: * jquery.ui.widget.js * jquery.ui.mouse.js */
+        ! function(a) {
+            function f(a, b) {
+                if (!(a.originalEvent.touches.length > 1)) {
+                    a.preventDefault();
+                    var c = a.originalEvent.changedTouches[0],
+                        d = document.createEvent("MouseEvents");
+                    d.initMouseEvent(b, !0, !0, window, 1, c.screenX, c.screenY, c.clientX, c.clientY, !1, !1, !1, !1, 0, null), a.target.dispatchEvent(d)
+                }
+            }
+            if (a.support.touch = "ontouchend" in document, a.support.touch) {
+                var e, b = a.ui.mouse.prototype,
+                    c = b._mouseInit,
+                    d = b._mouseDestroy;
+                b._touchStart = function(a) {
+                    var b = this;
+                    !e && b._mouseCapture(a.originalEvent.changedTouches[0]) && (e = !0, b._touchMoved = !1, f(a, "mouseover"), f(a, "mousemove"), f(a, "mousedown"))
+                }, b._touchMove = function(a) {
+                    e && (this._touchMoved = !0, f(a, "mousemove"))
+                }, b._touchEnd = function(a) {
+                    e && (f(a, "mouseup"), f(a, "mouseout"), this._touchMoved || f(a, "click"), e = !1)
+                }, b._mouseInit = function() {
+                    var b = this;
+                    b.element.bind({
+                        touchstart: a.proxy(b, "_touchStart"),
+                        touchmove: a.proxy(b, "_touchMove"),
+                        touchend: a.proxy(b, "_touchEnd")
+                    }), c.call(b)
+                }, b._mouseDestroy = function() {
+                    var b = this;
+                    b.element.unbind({
+                        touchstart: a.proxy(b, "_touchStart"),
+                        touchmove: a.proxy(b, "_touchMove"),
+                        touchend: a.proxy(b, "_touchEnd")
+                    }), d.call(b)
+                }
+            }
+        }(jQuery);
+
+        /*!
+         * jQuery UI Touch Punch 0.2.3
+         *
+         * Copyright 2011–2014, Dave Furfero
+         * Dual licensed under the MIT or GPL Version 2 licenses.
+         *
+         * Depends:
+         *  jquery.ui.widget.js
+         *  jquery.ui.mouse.js
+         */
+        (function($) {
+            // Detect touch support
+            $.support.touch = 'ontouchend' in document;
+            // Ignore browsers without touch support
+            if (!$.support.touch) {
+                return;
+            }
+            var mouseProto = $.ui.mouse.prototype,
+                _mouseInit = mouseProto._mouseInit,
+                _mouseDestroy = mouseProto._mouseDestroy,
+                touchHandled;
+            /**
+             * Simulate a mouse event based on a corresponding touch event
+             * @param {Object} event A touch event
+             * @param {String} simulatedType The corresponding mouse event
+             */
+            function simulateMouseEvent(event, simulatedType) {
+                // Ignore multi-touch events
+                if (event.originalEvent.touches.length > 1) {
+                    return;
+                }
+                event.preventDefault();
+                var touch = event.originalEvent.changedTouches[0],
+                    simulatedEvent = document.createEvent('MouseEvents');
+                // Initialize the simulated mouse event using the touch event's coordinates
+                simulatedEvent.initMouseEvent(
+                    simulatedType, // type
+                    true, // bubbles
+                    true, // cancelable
+                    window, // view
+                    1, // detail
+                    touch.screenX, // screenX
+                    touch.screenY, // screenY
+                    touch.clientX, // clientX
+                    touch.clientY, // clientY
+                    false, // ctrlKey
+                    false, // altKey
+                    false, // shiftKey
+                    false, // metaKey
+                    0, // button
+                    null // relatedTarget
+                );
+                // Dispatch the simulated event to the target element
+                event.target.dispatchEvent(simulatedEvent);
+            }
+            /**
+             * Handle the jQuery UI widget's touchstart events
+             * @param {Object} event The widget element's touchstart event
+             */
+            mouseProto._touchStart = function(event) {
+                var self = this;
+                // Ignore the event if another widget is already being handled
+                if (touchHandled || !self._mouseCapture(event.originalEvent.changedTouches[0])) {
+                    return;
+                }
+                // Set the flag to prevent other widgets from inheriting the touch event
+                touchHandled = true;
+                // Track movement to determine if interaction was a click
+                self._touchMoved = false;
+                // Simulate the mouseover event
+                simulateMouseEvent(event, 'mouseover');
+                // Simulate the mousemove event
+                simulateMouseEvent(event, 'mousemove');
+                // Simulate the mousedown event
+                simulateMouseEvent(event, 'mousedown');
+            };
+            /**
+             * Handle the jQuery UI widget's touchmove events
+             * @param {Object} event The document's touchmove event
+             */
+            mouseProto._touchMove = function(event) {
+                // Ignore event if not handled
+                if (!touchHandled) {
+                    return;
+                }
+                // Interaction was not a click
+                this._touchMoved = true;
+                // Simulate the mousemove event
+                simulateMouseEvent(event, 'mousemove');
+            };
+            /**
+             * Handle the jQuery UI widget's touchend events
+             * @param {Object} event The document's touchend event
+             */
+            mouseProto._touchEnd = function(event) {
+                // Ignore event if not handled
+                if (!touchHandled) {
+                    return;
+                }
+                // Simulate the mouseup event
+                simulateMouseEvent(event, 'mouseup');
+                // Simulate the mouseout event
+                simulateMouseEvent(event, 'mouseout');
+                // If the touch interaction did not move, it should trigger a click
+                if (!this._touchMoved) {
+                    // Simulate the click event
+                    simulateMouseEvent(event, 'click');
+                }
+                // Unset the flag to allow other widgets to inherit the touch event
+                touchHandled = false;
+            };
+            /**
+             * A duck punch of the $.ui.mouse _mouseInit method to support touch events.
+             * This method extends the widget with bound touch event handlers that
+             * translate touch events to mouse events and pass them to the widget's
+             * original mouse event handling methods.
+             */
+            mouseProto._mouseInit = function() {
+                var self = this;
+                // Delegate the touch handlers to the widget's element
+                self.element.bind({
+                    touchstart: $.proxy(self, '_touchStart'),
+                    touchmove: $.proxy(self, '_touchMove'),
+                    touchend: $.proxy(self, '_touchEnd')
+                });
+                // Call the original $.ui.mouse init method
+                _mouseInit.call(self);
+            };
+            /**
+             * Remove the touch event handlers
+             */
+            mouseProto._mouseDestroy = function() {
+                var self = this;
+                // Delegate the touch handlers to the widget's element
+                self.element.unbind({
+                    touchstart: $.proxy(self, '_touchStart'),
+                    touchmove: $.proxy(self, '_touchMove'),
+                    touchend: $.proxy(self, '_touchEnd')
+                });
+                // Call the original $.ui.mouse destroy method
+                _mouseDestroy.call(self);
+            };
+        })(jQuery);
+        /*FINAL funçoes para MOBILE*/
+        function skipper(value) {
+            video.currentTime += value;
+        }
+
+        function startOnProgress() {
+            video.addEventListener("timeupdate", updateBar, false);
+            video.addEventListener('canplay', play_evento, false);
+            video.addEventListener('play', play_evento, false);
+            video.addEventListener('timeupdate', atualizar, false);
+
+        };
+
+        function mostra() {
+            document.getElementById('foto').style.display = 'block';
+        }
+
+        function esconde() {
+            document.getElementById('foto').style.display = 'none';
+
+        }
+
+        function updateBar() {
+            var progressB = document.getElementById("progress-bar");
+            var percentage = Math.floor((100 / video.duration) * video.currentTime);
+            progressB.value = percentage;
+            progressB.innerHTML = percentage + "% played";
+        }
+
+        function atualizar() {
+            document.getElementById('tempo-atual').innerHTML = secToStr(video.currentTime);
+            document.getElementById('progress-bar').value = video.currentTime;
+        }
+
+        function play_evento() {
+            document.getElementById('tempo-atual').innerHTML = secToStr(video.currentTime);
+            document.getElementById('tempo-total').innerHTML = secToStr(video.duration);
+            document.getElementById('progress-bar').max = video.duration;
+            document.getElementById('progress-bar').value = video.currentTime;
+        }
+
+
+        function secToStr(sec_num) {
+            sec_num = Math.floor(sec_num);
+            var horas = Math.floor(sec_num / 3600);
+            var minutos = Math.floor((sec_num - (horas * 3600)) / 60);
+            var segundos = sec_num - (horas * 3600) - (minutos * 60);
+
+            if (horas < 10) {
+                horas = '0' + horas;
+            }
+            if (minutos < 10) {
+                minutos = '0' + minutos;
+            }
+            if (segundos < 10) {
+                segundos = '0' + segundos;
+            }
+            var tempo = minutos + ':' + segundos;
+            return tempo;
+        }
+        $('.draggable, .droppable').sortable({
+            connectWith: '.playlist'
+        });
+
+        $("#player").droppable({
+            drop: function(ui, event) {
+
+                $("#player").html(
+                    "<video id='video'src='https://github.com/olaviolacerda/devweb6semestre/blob/master/Trabalho%20GrauB/media/" +
+                    $($(event.draggable)).html() + "?raw=true'" + $(event.draggable)
+                    .html() +
+                    "' poster='https://raw.githubusercontent.com/olaviolacerda/devweb6semestre/master/Trabalho%20GrauB/media/fundo.png' autoplay width='100%' ></video>"
+                );
+                $("#titulo").html(
+                    "<marquee slide direction='right' scrollDelay=150>" + $(
+                        event.draggable).html() +
+                    " está sendo tocado agora.</marquee>");
+                video.onprogress = startOnProgress();
+            }
+        });
+        $(document).ready(function() {
+            $("li").dblclick(function() {
+                $("#player").html("<video id='video'src='https://github.com/olaviolacerda/devweb6semestre/blob/master/Trabalho%20GrauB/media/" +
+                    $($(this)).html() + "?raw=true'" + $(this).html() +
+                    "' poster='https://raw.githubusercontent.com/olaviolacerda/devweb6semestre/master/Trabalho%20GrauB/media/fundo.png' autoplay width='100%'></video>"
+                );
+                $("#titulo").html(
+                    "<marquee slide direction='right' scrollDelay=150>" + $($(this)).html() +
+                    " está sendo tocado agora.</marquee>");
+                video.onprogress = startOnProgress();
+            });
+        });
+    </script>
+</body>
+
+</html>

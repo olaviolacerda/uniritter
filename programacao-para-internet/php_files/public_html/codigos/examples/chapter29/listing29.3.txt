@@ -1,0 +1,12 @@
+function expand_all(&$expanded)
+{
+  // mark all threads with children as to be shown expanded
+  $conn = db_connect();
+  $query = 'select postid from header where children = 1';
+  $result = mysql_query($query);
+  $num = mysql_numrows($result);
+  for($i = 0; $i<$num; $i++)
+  {
+    $expanded[mysql_result($result, $i, 0)]=true;
+  } 
+}

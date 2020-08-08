@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" output="classes" path="src"/>
+	<classpathentry kind="src" path="lib"/>
+	<classpathentry exported="true" kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="lib" path="D:/Programas Install/EclipsePTB/Data/workspace/desenvolvimento_compiladores_naogit/lib/antlr-4.5.3-complete.jar"/>
+	<classpathentry exported="true" kind="lib" path="C:/Program Files/Java/jre1.8.0_111/lib/resources.jar"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>

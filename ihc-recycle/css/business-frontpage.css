@@ -1,0 +1,162 @@
+/*
+ * Start Bootstrap - Business Frontpage (http://startbootstrap.com/)
+ * Copyright 2013-2016 Start Bootstrap
+ * Licensed under MIT (https://github.com/BlackrockDigital/startbootstrap/blob/gh-pages/LICENSE)
+ */
+@import url(https://fonts.googleapis.com/css?family=BenchNine:700);
+body {
+    padding-top: 50px; /* Required padding for .navbar-fixed-top. Remove if using .navbar-static-top. Change if height of navigation changes. */
+    background-color: #ecffde;
+    
+}
+
+/* Header Image Background - Change the URL below to your image path (example: ../images/background.jpg) */
+
+
+
+/* Customize the text color and shadow color and to optimize text legibility. */
+
+.tagline {
+    text-shadow: 0 0 10px #000;
+    color: #fff;
+    letter-spacing:1pt;
+    word-spacing:2pt;
+    font-size:45px; 
+    font-weight: bold;
+}
+
+.img-center {
+    margin: 0 auto;
+}
+
+footer {
+    margin: 3px 0;
+    text-align: center;
+}
+
+#span1 {
+    font-size: 13pt;
+}
+
+h3 {
+    font-size:20px;
+}
+h4 {
+    font-size: 30px;
+}
+
+.alert{
+    display: none;
+}
+
+div#cont {
+    box-shadow: 0px 0px 12px yellowgreen;
+    background-color: white;
+    
+}
+
+@media (min-width: 991px) {
+.business-header {
+    height: 400px;
+    background-image:url("../img/image1.jpg");
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    background-size: cover;
+    -o-background-size: cover;
+}
+}
+
+@media (min-width: 768px) {
+div.row {
+    margin-left: 15%;
+    margin-right: -20%;
+}
+
+
+}
+
+.btn-info {
+    background-color: #CAFF70;
+    border-color: #A2CD5A;
+    color:#556B2F;
+}
+
+.btn-info:hover {
+    background-color: #556B2F;
+    border-color: #A2CD5A;
+}
+.btn-info:active {
+    background-color: #CAFF70;
+    border-color: #A2CD5A;
+    color: #556B2F;
+}
+
+.btn-info.focus, .btn-info:focus {
+    background-color: #CAFF70;
+    border-color: #A2CD5A;
+    color: #556B2F;
+}
+
+.snip1562 {
+  background-color: #556B2F;
+  border: none;
+  color: #ffffff;
+  cursor: pointer;
+  display: inline-block;
+  font-family: 'BenchNine', Arial, sans-serif;
+  font-size: 1em;
+  font-size: 22px;
+  line-height: 1em;
+  margin: 10px 40px;
+  outline: none;
+  padding: 15px 30px 15px;
+  position: relative;
+  text-transform: uppercase;
+  font-weight: 700;
+ 
+}
+
+.snip1562:before,
+.snip1562:after {
+  border-color: transparent;
+  -webkit-transition: all 0.25s;
+  transition: all 0.25s;
+  border-style: solid;
+  border-width: 0;
+  content: "";
+  height: 24px;
+  position: absolute;
+  width: 24px;
+  text-decoration: none;
+}
+
+.snip1562:before {
+  border-color: #dff0d8;
+  border-left-width: 2px;
+  border-top-width: 2px;
+  left: -5px;
+  top: -5px;
+}
+
+.snip1562:after {
+  border-bottom-width: 2px;
+  border-color: #dff0d8;
+  border-right-width: 2px;
+  bottom: -5px;
+  right: -5px;
+}
+
+.snip1562:hover,
+.snip1562.hover {
+  background-color: #dff0d8;
+  text-decoration: none;
+}
+
+.snip1562:hover:before,
+.snip1562.hover:before,
+.snip1562:hover:after,
+.snip1562.hover:after {
+  height: 100%;
+  width: 100%;
+}
+	

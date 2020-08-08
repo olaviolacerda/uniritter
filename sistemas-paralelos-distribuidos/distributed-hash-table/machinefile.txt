@@ -1,0 +1,4 @@
+0 localhost 1230 server1
+1 localhost 1231 server2
+10 localhost 2340 cliente1
+11 localhost 2341 cliente2

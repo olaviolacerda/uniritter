@@ -1,0 +1,20 @@
+function delete_account($auth_user, $accountid)
+{
+  //delete one of this user's account from the DB
+
+  $query = "delete from accounts where accountid='$accountid' 
+                                   and username ='$auth_user'";
+  if(db_connect())
+  {
+    $result = mysql_query($query);
+  }
+  return $result;
+}
+After execution returns to index.php, the body stage will run the following code:
+case 'store-settings' :
+case 'account-setup' :
+case 'delete-account' :
+{
+  display_account_setup($HTTP_SESSION_VARS['auth_user']);
+  break;
+} 

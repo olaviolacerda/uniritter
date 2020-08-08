@@ -1,0 +1,31 @@
+function load_list_info($listid)
+{
+  if(!$listid)
+    return false;
+
+  if(!db_connect())
+    return false;
+
+  $query = "select listname, blurb from lists where listid = $listid";
+  $result = mysql_query($query);
+        if(!$result)
+  {
+    echo 'Cannot retrieve this list';
+    return false;
+  }
+  $info =  mysql_fetch_array($result);
+  $query = "select count(*) from sub_lists where listid = $listid";
+  $result = mysql_query($query);
+        if($result)
+  {
+    $info['subscribers'] = mysql_result($result, 0, 0);
+  }
+  $query = "select count(*) from mail where listid = $listid
+            and status = 'SENT'";
+  $result = mysql_query($query);
+        if($result)
+  {
+    $info['archive'] = mysql_result($result, 0, 0);
+  }
+  return $info;
+}

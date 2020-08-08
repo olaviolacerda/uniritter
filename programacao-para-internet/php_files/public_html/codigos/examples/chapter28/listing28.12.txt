@@ -1,0 +1,31 @@
+function subscribe($email, $listid)
+{
+  if(!$email||!$listid||!list_exists($listid)||!subscriber_exists($email))
+    return false;
+
+  //if already subscribed exit
+  if(subscribed($email, $listid))
+    return false;
+
+  if(!db_connect())
+    return false;
+
+  $query = "insert into sub_lists values ('$email', $listid)";
+
+  $result = mysql_query($query);
+        return $result;
+}
+
+function unsubscribe($email, $listid)
+{
+  if(!$email||!$listid)
+    return false;
+
+  if(!db_connect())
+    return false;
+
+  $query = "delete from sub_lists where email = '$email' and listid = $listid";
+
+  $result = mysql_query($query);
+  return $result;
+}

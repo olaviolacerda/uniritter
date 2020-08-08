@@ -1,0 +1,280 @@
+\documentclass[11pt,a4paper,usenames,dvipsnames]{article}
+
+\usepackage{iccv}
+\usepackage{times}
+\usepackage{epsfig}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage[brazil]{babel}
+\usepackage[OT1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[dvipsnames]{xcolor}
+\usepackage{booktabs}
+\usepackage[a4paper,
+hmargin={1.5cm,1.5cm},
+vmargin={2cm,2.5cm},
+footskip=5mm]{geometry}
+\usepackage{tasks}
+\usepackage[pagebackref=true,breaklinks=true,linkcolor=red,citecolor=blue,colorlinks=true,urlcolor=blue,bookmarks=false]{hyperref}
+
+
+%\iccvfinalcopy % *** Retire o comentário desta linha para gerar a versão da biblioteca
+
+
+\begin{document}
+%%%%%%%%% Título %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\title{Estudo investigativo sobre boas práticas de programação e seu uso na comunidade de Ruby}
+
+\author{ \bf Olavio Lacerda Bueno Junior\\
+		\tt olavio.lacerda@hotmail.com \\
+		Curso de Ciência da Computação \\
+		Centro Universitário Ritter Dos Reis - UNIRITTER 
+		\and
+ 		\bf Guilherme Silva de Lacerda\\
+		Professor Orientador\\
+}
+
+\maketitle
+\thispagestyle{empty}
+
+%%%%%%%%% Resumo %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{abstract}
+   Um código limpo é simples e direto. Ele é tão bem legível quanto uma prosa bem escrita. Ele jamais torna confuso o objetivo do desenvolvedor, em vez disso, ele está repleto de abstrações claras e linhas de controle objetivas \cite{martin2009clean}.
+   
+   A ideia de qualidade é aparentemente intuitiva; contudo, quando examinado mais
+   longamente, o conceito se revela complexo. Definir qualidade para estabelecer objetivos
+   é, assim, uma tarefa menos trivial do que aparenta a princípio~\cite{Novatec:Qualidade}.
+   
+   \textit{É possível identificar um código ruim quando se tenta modificar o
+   comportamento de um determinado módulo, seja para estender uma determinada
+   funcionalidade ou para corrigir um determinado bug e não se localiza o ponto
+   onde deve ser feito a alteração, ou quando é feita a alteração e se observa
+   comportamentos ainda mais estranhos em pontos totalmente diferentes do
+   mesmo código}\cite{de2016estudo}.
+   
+   No presente documento, discute-se a relação de práticas da linguagem \textit{Ruby}, analisando práticas documentadas, práticas utilizadas pela comunidade de programadores e análise de códigos existentes, comparando as informações obtidas para avaliar a relação entre as técnicas realizadas e a repercussão do uso delas na qualidade dos códigos. 
+    
+\end{abstract}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%% Intro %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Introdução}
+
+Um código-fonte bem escrito, além de prover uma melhor legibilidade e beleza, ser bem identificável, de fácil manutenção e compreensão faz com que um projeto seja mantido por longo tempo em uma empresa ou projeto. A partir do momento que tem-se um código legível, novos desenvolvedores que se depararem com o mesmo podem ter certeza de que vão conseguir dar continuidade ao que fora desenvolvido até então, seguindo as práticas de escrita e convenções.
+
+Segundo Pereira: "Código Limpo é um conjunto de técnicas de programação que
+quando praticadas pelos desenvolvedores tem como objetivo garantir a legibilidade e
+qualidade do código produzido"~\cite{pereira2016proposta}.
+
+Um dos requisitos para ter um código legível e bem estruturado é seguir as boas práticas de programação. Indiferente da linguagem, as boas práticas garantem um consenso entre os desenvolvedores e um maior entendimento de funcionalidades no sistema entre os mesmos. Boas práticas podem garantir menos confusão, facilidade na leitura e na escrita de novas aplicações e fácil manutenção. 
+
+Como objetivo principal este trabalho, propõe-se estudar a existência da relação entre práticas observadas em registros acadêmicos, com técnicas utilizadas no desenvolvimento de projetos na percepção dos desenvolvedores da comunidade Ruby, avaliando o impacto dessas boas práticas na avaliação geral da qualidade do código-fonte de projetos.
+
+Entre os objetivos específicos deste trabalho pode-se destacar:
+
+\begin{itemize}
+    \item Estudo e levantamento de boas praticas, utilizadas e documentadas sobre a escrita de código-fonte no paradigma Orientado a Objetos, direcionando-se a linguagem Ruby; 
+    \item Partindo do método \textit{survey}, confecção de questionário, validado por profissionais e submetido à comunidade de Ruby;
+	\item Avaliação da qualidade da escrita do código-fonte de projetos \textit{open-source};
+	\item Análise dos códigos escolhidos utilizando a plataforma RubyCritic;
+	\item Comparação das respostas obtidas a partir do questionário com a identificação das práticas documentadas e a análise do código dos projetos escolhidos, visando comparar as práticas e avaliar o impacto dessas na qualidade dos projetos;
+\end{itemize}
+
+Nas sessões desde trabalho, apresenta-se a revisão de literatura, onde está apresentada a fundamentação teórica do trabalho, destacando tópicos abordados no decorrer do documento~\ref{sec:Literature}; trabalhos relacionados, elencando-os com a motivação do presente trabalho~\ref{sec:RelatedWork}; uma solução proposta, onde são apresentados os métodos de pesquisa e avaliação, bem como as etapas do desenvolvimento~\ref{sec:Solution}. Ao final, uma abordagem sobre práticas e experimentos que serão abordados na continuação do projeto~\ref{sec:Conclusions}. 
+
+%%%%%%%%% Referencial Teorico %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Fundamentação Teórica}\label{sec:Literature}
+
+Na sessão corrente, destaca-se alguns tópicos abordados e utilizados como base para o presente trabalho.
+
+\subsection{Orientação a Objetos}
+A Orientação a Objetos é um paradigma que consiste na abstração da realidade utilizando a criação de objetos, classificando-os e estruturando-os. O objeto possui uma identidade única, o que proporciona que o mesmo possua suas propriedades(atributos) e métodos(funções) que serão associadas a ele. Com esse sistema, pode-se criar herança entre eles, onde podem receber características de classes superiores à eles, junto com polimorfismo onde algumas das características e ações herdadas de objetos ancestrais são modificadas de acordo com a sua necessidade. 
+Por ter essa abstração e fazer os desenvolvedores pensarem como a vida real, as vantagens de se utilizar desse paradigma são grandes. 
+
+Segundo Erich: "Código orientado a objetos que não segue as boas práticas pode facilmente se tornar um pesadelo de se manter"~\cite{gamma1995design}. Com o avanço e aumento da popularidade da Orientação a Objetos, muitas linguagens começaram a surgir ao longo do tempo, junto a problemas de design, o que causavam fragilidade, complexidade e repetição desnecessária, de difícil modificação. Com isso, surgiram vários princípios para guiar o design de sistemas que auxiliam na organização e manutenção de código a partir de boas práticas. 
+
+Pode-se dizer que o mais famoso padrão é o SOLID. Definidos por Robert Martin em \cite{martin2006agile}, composto por 5 partes:
+
+\textbf{S - O Princípio de Responsabilidade Única (SIP)}, onde uma classe qualquer deve ter apenas a a sua responsabilidade. 
+
+\textbf{O - O princípio do aberto/fechado (OCP)}, onde pode-se ampliar o comportamento de uma classe qualquer, sem modificar código existente. 
+
+\textbf{L - O Princípio de Substituição (LSP)}, que consiste em garantir que classes sucessoras possam ser substituíveis por suas classes pai. 
+
+\textbf{I - Princípio de Segregação da Interface (ISP)}, onde objetos que as assinem não necessitem utilizar métodos que não precisem. 
+
+\textbf{D - Princípio de Inversão de Dependência (DIP)}, principio onde define que a classe dependa de interface e não de classes concretas.
+
+Seguindo esses padrões e as boas práticas, garante-se códigos de fácil manutenção, coesão e legibilidade. Os mesmos podem e devem ser aplicados em todas as linguagens que abrangem o paradigma orientado a objetos, incluindo a linguagem Ruby que será descrita a seguir:
+
+\subsection{Linguagem Ruby}
+Ruby é uma linguagem de script, interpretada, popular e dinâmica que visa "ser
+natural para os programadores", dando a eles a "liberdade de escolha" entre várias formas diferentes de realizar a mesma coisa\cite{RubyLanguage}. 
+Criada em 1995 por Yukihiro Matsumoto, Ruby possui uma sintaxe simples, tão natural quanto o Inglês, o que a torna fácil de ler e escrever. 
+
+Apesar de possuir uma leitura simples, por ter um balanceamento entre os paradigmas Funcional e Imperativo e possuir conceitos da Orientação a Objetos, podemos encontrar bastante complexidade em seu interior\cite{RB}.
+
+Uma das características da linguagem são as \textit{gems}. Conforme afirma Guilherme: "Uma Ruby gem é uma package de código Ruby. Pode ser uma simples biblioteca ou uma
+aplicação completa. Contudo, uma gem pode conter vários executáveis. Desta forma, uma
+gem tanto pode ser incluída dentro de um projeto e ser chamada programaticamente,
+como pode ser executada na linha de comandos como se fosse um programa"\cite{RC}.
+
+Com licença livre para uso, por ter sua escrita e leitura de fácil compreensão, Ruby está entre as 15 linguagens mais utilizadas, segundo o índice da TIOBE\cite{TIOBE}. A maioria do uso para a linguagem, faz uso do seu principal web framework, o \textit{Ruby on Rails}\cite{RoR}.
+
+\subsection{Boas Práticas}
+
+
+Boas práticas são um conjunto de técnicas e convenções aplicadas de maneira correta em projetos e sistemas, com o objetivo de melhorar a qualidade da aplicação desenvolvida. Essas práticas podem ser compartilhadas entre as comunidades, possibilitando um aumento na qualidade de aplicações de terceiros, clareza nos códigos desenvolvidos e uma melhor organização para novos programadores que se depararão com determinada linguagem ou projeto desconhecido.
+
+Para entender um pouco a importância de práticas e técnicas no desenvolvimento, discorre-se a seguir um pequeno exemplo de dificuldade e má interpretação de código em um projeto:
+
+Um programador se depara com métodos extensos e classes com muitas linhas de código, encontra comentários desatualizados, variáveis sem significado ou nome pouco descritivos. Esses aspectos dificultam, e muito, na leitura e compreensão do código. Após um longo tempo, o desenvolvedor encontra o trecho onde necessitava a modificação, após  a mudança, segue seu trabalho, deixando o código ainda muito confuso e cheio de problemas.~\cite{almeida2010codigo}.
+
+Pode-se perceber que o não uso de práticas e convenções dificultou a função do programador em efetuar uma simples alteração no código. Ao aplicar as boas práticas, garante-se que haja uma melhor compreensão do que está sendo desenvolvido aumentando a qualidade da aplicação e a clareza do código-fonte gerado.
+
+Más práticas influenciam no fluxo do time de desenvolvimento, podendo diminuir bastante a qualidade do software, impactando diretamente no desenvolvedor e no cliente.~\cite{assisimpacto}.
+
+\subsection{Análise automatizada de código}
+
+Analisadores automatizados de código podem ser divididos em dois: \textit{estáticos}, que analisam  código sendo escrito em tempo real, sem a necessidade de compilação e \textit{dinâmicos}, onde há necessidade de compilar o código-fonte para que seja avaliado pelo analisador. Algumas dessas ferramentas podem acusar os erros instantaneamente, fazendo com que a melhoria do código e das técnicas possam ser adaptadas ou corrigidas em tempo quase que real pelos programadores envolvidos no projeto. 
+
+Após uma revisão, com arquivos novos apontando o que fora percebido na análise, pode-se efetuar as modificações necessárias para melhorar a qualidade do que está escrito, garantindo a legibilidade do código e assim, podendo auxiliar na qualidade do sistema e/ou aplicação.
+
+\subsubsection{Análise Dinâmica}
+
+O método de análise dinâmica é executado durante a compilação, ou seja, em tempo de execução da aplicação. Detectam vulnerabilidades do código utilizando algumas práticas e métodos da análise estática. Sua desvantagem é que, por ser baseada em alguns testes que devem ser pré-programados, caso o programador esqueça de algum deles, a vulnerabilidade do código na parte esquecida passará, deixando o código uma avaliação completa. Um pouco mais sobre análise dinâmica pode ser visto no trabalho de Teixeira~\cite{teixeira2007ferramenta}.
+
+Essas ferramentas auxiliam em \textit{debugs} de aplicações, onde se é gasto muito tempo. A identificação automática de \textit{bugs} fornece aos desenvolvedores uma melhoria de tempo no desenvolvimento, onde se gasta mais escrevendo e se gasta menos reparando e procurando erros na aplicação. Dinamicamente, pode-se relatar desempenho da aplicação como também informações sobre o tratamento e uso da memória.
+
+\subsubsection{Análise Estática}
+
+Diferente da análise dinâmica, a análise estática se compromete em analisar o código sem a necessidade de execução, podendo assim identificar inconsistências que prejudicam o desenvolvimento~\cite{Analysis}.
+
+Facilitando na detecção de anomalias ou erros de código, essas ferramentas também auxiliam na eliminação de lapsos cometidos pelos desenvolvedores, podendo impactar significativamente no ciclo de desenvolvimento do produto, permitindo poupar tanto tempo quanto o dinheiro investido\cite{teixeira2007avaliaccao}.
+
+Entende-se que, analisar um código estaticamente não garante que há erros ou que possa ocasionar algum, pode-se ter previsões da qualidade do código e/ou resoluções para os problemas encontrados, garantindo que erros possam ser encontrados com antecedência, garantindo economia de tempo e dores de cabeça aos envolvidos no projeto que poderiam ser causadas com \textit{bugs} ou problemas de falta de legibilidade em um código de grande escala, interferindo na qualidade do software~\cite{Opportunities}.  
+
+%%%%%%%%% Trabalhos Relacionados %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Trabalhos relacionados}\label{sec:RelatedWork}
+
+Acerca dos trabalhos relacionados, Guilherme e Wander et al.~\cite{Climate} abordam a aplicação de refatoração em um projeto desenvolvido utilizando o \textit{web framework Ruby on Rails}~\cite{RoR} que fora submetido à \textit{avaliação estática}. Após a refatoração e aplicação de práticas para a melhoria do código-fonte, o sistema usado de estudo obteve uma melhoria em relação a sua avaliação inicial, que fora obtida a partir da análise da ferramenta \textit{Code Climate}\cite{CodeClimate}. 
+
+O desenvolvimento da ferramenta de análise \textit{RubyCritic} foi proposto por Guilherme et al.~\cite{RC} em sua tese de mestrado. O mesmo, procurava por uma forma de manter constantes análises da qualidade e do desenrolar das aplicações em sua empresa, de maneira que erros ou más práticas fossem acusados de forma rápida, indicando quais alterações necessitariam para auxiliar na melhoria da qualidade e funcionamento do sistema em desenvolvimento.
+
+Filipe et al.~\cite{gil2014desenvolvimento} elabora uma prática de ensino supervisionada em uma escola em Lisboa. O mesmo realizou seu trabalho com intuito de apresentar aos estudantes funcionalidades e ferramentas utilizadas para desenvolvimento web e a consciencialização para a importância das boas práticas de programação.
+
+Em \textit{Analyzing best practices on Web development frameworks: The lift approach}~\cite{del2015analyzing}, o grupo de pesquisadores identifica algumas das boas práticas utilizadas por desenvolvedores de aplicações web. O trabalho discorre sobre as práticas utilizadas para o desenvolvimento de aplicações web, comparando-as com as práticas utilizadas em frameworks para sistemas web.
+
+ Gharachorlu et al.~\cite{gharachorlu2014code} realizou uma pesquisa objetivando constatar más práticas em projetos open-source desenvolvidos utilizando CSS(Cascading Style Sheets), uma DSL utilizada por desenvolvedores para estilizar aplicações desenvolvidas em HTML.
+ 
+ Pode-se encontrar em \textit{O Impacto das Boas Práticas de Programação no Gerenciamento de Memória no Java}~\cite{assisimpacto} um estudo de caso relevando a importância e impacto causado na qualidade da memória e clareza de código escrito na linguagem Java ao tratar más práticas e fazer uso de boas práticas próprias da linguagem.
+
+O trabalho de Miranda, Valente e Terra et al.~\cite{miranda2016inferencia} fora realizado com o objetivo de comparar o uso de analise estática e análise dinâmica na inferência de tipos em linguagens tipadas de forma dinâmica, especificamente em Ruby.
+
+Abordando boas práticas de Ruby em \textit{The role of best practices to appraise open source software}~\cite{regedor2013role}, o grupo analisa códigos open-source para verificar sua qualidade, levando em consideração que são abertos à público geral e há distinção entre as práticas dos desenvolvedores.
+
+Pode-se destacar nos trabalhos acima, o estudo em cima de boas práticas na programação e a análise automatizada de código-fonte. Diferenciando-se dos demais, o objetivo deste trabalho é fazer o uso do estudo sobre boas práticas, juntamente com a análise de código-fonte, como base para investigar a relação entre práticas de desenvolvedores e a qualidade de seus códigos escritos.
+
+
+%%%%%%%%% Solução Proposta %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Solução Proposta}\label{sec:Solution}
+
+Tem-se como objetivos, identificar boas práticas utilizadas em linguagens de programação Orientada a Objetos, com ênfase na linguagem Ruby. Confecção de um questionário, validado por profissionais, que será distribuído na comunidade de desenvolvedores de Ruby para identificar práticas utilizadas e percebidas pelos mesmos. Avaliação do código-fonte dos projetos observados, a fim de analisar o impacto da utilização de boas práticas na qualidade das aplicações.
+
+\subsection{Método}
+
+A pesquisa embasa-se em autores que são referência em assuntos sobre desenvolvimento de softwares como Robert Martin~\cite{martin2006agile, Ruby:Refactoring, martin2009clean}, Fowler~\cite{fowler1999refactoring}, Pressman~\cite{Pressaman:Abordagem}, bem como em livros e trabalhos envolvendo análise de código e boas práticas de programação em linguagens Orientada a Objetos\cite{RFR, Climate, Novatec:Qualidade, piveta2005bad, teixeira2007avaliaccao, pereira2016proposta, assisimpacto, gharachorlu2014code}. 
+
+Destaca-se aqui as etapas para a obtenção e formulação da solução que esteja a contento do problema abordado:
+
+Elaboração de estudo e identificação de boas práticas e padrões no paradigma Orientado a Objetos para que possam ser utilizadas como forma comparativa. Escolha dos projetos baseados nos critérios especificados na sessão \ref{analised_projects} deste trabalho. Confecção de um questionário, que será submetido para validação com desenvolvedores profissionais e após a mesma, será disponibilizado para ser respondido pela comunidade. Análise do código-fonte extraído dos projetos  escolhidos, fazendo uso da ferramenta \textit{RubyCritic}. 
+
+Concluindo com a comparação da qualidade do código-fonte dos projetos, com os dados coletados a partir do questionário juntamente com práticas identificadas em registros acadêmicos a partir de estudo.
+
+\subsection{Práticas e Ferramentas para o Estudo}
+
+Com o objetivo de criar uma ferramenta que fizesse uma análise geral do código, Guilherme et al. \cite{RC} iniciou seu projeto no \textit{Ruby Critic}, para que o mesmo executasse uma série de análises no código, indicando onde estão no código os problemas que diminuem ou influenciam na qualidade do projeto. Além dessas métricas para avaliação, a ferramenta gera arquivos novos apontando \textit{smells} que podem ser corrigidos pelos desenvolvedores rapidamente.
+
+Pode-se dizer que existe uma grande relação entre \textit{smells} no código fonte e indícios de problemas no projeto\cite{piveta2005bad}. O uso dessa \textit{gem} proverá a avaliação da qualidade dos códigos citados a seguir, no intuito de gerar dados para a comparação entre as práticas e a qualidade dos mesmos.
+
+Conta-se também, com a ferramenta Git, que é utilizada para o controle da versão de projetos entre equipes diversas, podendo ser hospedados em sites onde garante-se o backup e alojamento dos projetos. Segundo Rocha: "O Sistema de controle de versão permite e facilita o trabalho paralelo de pessoas em um mesmo projeto [...] facilitando o trabalho de equipes."\cite{rocha2017integraccao}. 
+
+\subsection{Projetos Analisados}\label{analised_projects}
+
+Dentre os sistemas de versionamento, o Git é um dos mais utilizados e mais famosos entre os programadores, com ele, surgiram alguns sites onde podem-se hospedar repositórios e projetos utilizando a ferramenta Git para o controle de versão. Um dos principais sites é o \textit{Git Hub}\cite{Git}, nele pode-se encontrar uma grande quantidade de projetos \textit{open source}, projetos pessoais, empresariais e institucionais fazendo com que seja uma plataforma composta por diversos trabalhos ao redor do mundo.
+
+Dentre os critérios avaliados para a escolha dos projetos para avaliação de qualidade, destacam-se os seguintes pontos: 
+\settasks{
+	counter-format=(tsk[r]),
+	label-width=4ex
+}
+\begin{center}
+\begin{tasks}
+		\task \textbf{Open-source}: A escolha de trabalhos \textit{open-source} teve-se por serem códigos de fácil acesso, já que são desenvolvidos abertamente e podem receber contribuições de qualquer desenvolvedor disposto à participar e ajudar na construção dos mesmos.
+		\task \textbf{Desenvolvidos utilizando a linguagem Ruby}: Além de interesse pessoal, a Linguagem Ruby fora optada devido à volta de seu crescimento entre os desenvolvedores de aplicações web, como citado em~\cite{RubyTiobe} onde pode-se ver um crescimento de sua popularidade entre os anos de 2015 e 2017. Aparecendo também entre as 15 mais populares no site \textit{PYPL PopularitY of Programming Language}~\cite{PYPL}, que analisa a pesquisa por tutoriais em sites de busca como \textit{Google}. 
+		\task \textbf{Mais populares no site GitHub}: Ambos trabalhos realizados pela comunidade e que possuem bastante popularidade entre os desenvolvedores de Ruby.
+	\end{tasks}
+\end{center}
+
+ Nessa sessão, apresenta-se os projetos selecionados com uma breve descrição dos mesmos\cite{Projects}:
+
+O principal \textit{framework} da linguagem Ruby, \href{https://github.com/rails/rails}{Ruby on Rails} surgiu como uma alternativa para desenvolvedores web, com uma completa estrutura de desenvolvimento para suprir as maiores necessidades. 
+
+Trabalhando com o conceito de MVC(Model-View-Controller), onde o código é organizado e subdividido em 3 partes, onde cada uma trata de suas dependências, mantendo a legibilidade, organização e clareza da aplicação, garantindo melhor segurança, reutilização e manutenção\cite{da2012revisao, bachle2007ruby}.
+
+Devido a suas convenções e expressões, mesmo sendo um framework criado a partir de uma linguagem de fato, Ruby on Rails se sente como uma linguagem própria e estruturada. Por ter um ritmo diferente da sua linguagem base, o programador se sente utilizando uma linguagem completa e com muitos recursos\cite{RFR}.
+
+O projeto \href{https://github.com/jekyll/jekyll}{Jekyll} é um gerador de site estático simples, perfeito para sites pessoais, de projetos ou de organização. 
+
+Avalia-se também, \href{https://github.com/discourse/discourse}{Discourse}, uma promissora plataforma para discussão, completamente de código aberto\textit{open source}, utilizada comumente para aplicações que lidam com listas de discussão, fóruns ou salas de bate-papo.
+
+\href{https://github.com/gitlabhq/gitlabhq}{Gitlabhq} ou GitLab Community Edition, é um projeto também \textit{open source} onde estão desenvolvidas algumas das principais features de um dos grandes sites hospedeiros de repositórios, o GitLab. Assim como o GitHub, o mesmo oferece uma plataforma simples e adaptada para o controle de versionamento de projetos.
+
+GitLab proporciona uma plataforma em Git, integrada e escalável para desenvolvimento de aplicações diversos\cite{GitLab}.
+
+Juntamente com a {gem} \href{https://github.com/plataformatec/devise}{Devise}, uma solução de autenticação flexível para desenvolvimento em Rails. Essa \textit{ruby gem} possuí uma série de funcionalidades que permitem com que tenha-se sistemas de autenticação garantida para as aplicações desenvolvidas. Baseando-se em um conceito de modularidade, usa apenas o que o desenvolvedor precisa para realizar a autenticação e aumentar a segurança de sua aplicação.
+
+Na tabela \ref{tab:projects_infos}, tem-se uma pequena comparação entre os mesmos, destacando suas avaliações e \textit{forks} no site GitHub. A avaliação dos mesmos significa o número de usuários que favoritaram o projeto, enquanto \textit{forks}, o número de vezes em que o projeto foi copiado para continuação de desenvolvimento por outrem. 
+
+
+\begin{table}[h]
+\centering
+\begin{tabular}{@{}llllll@{}}
+\toprule
+\textbf{Projeto} & Rails & Jekyll & Discourse & GitLabHQ & Devise \\ \midrule
+\textbf{Avaliações} & 38,738 & 31,968 & 23,315 & 20,107 & 17,929 \\
+\textbf{Forks} & 15,396 & 7,090 & 5,848 & 5,325 & 4,153 \\
+ &  &  &  &  &  \\ \bottomrule
+\end{tabular}
+\caption{Informações sobre os projetos escolhidos}
+\label{tab:projects_infos}
+\end{table}
+
+\subsection{Metodologia de pesquisa}
+
+Os métodos de pesquisa podem ser quantitativos, utilizando survey(questionário), experimentos, ou qualitativos com estudos de caso e perguntas abrangentes, devendo sua escolha estar associada aos objetivos e intenções da pesquisa\cite{freitas2000metodo}.
+
+Para coletar os dados para comparação de práticas, o questionário elaborado possui estrutura não disfarçada, onde o objetivo da pesquisa possui questões fechadas e o grupo está ciente do objetivo da pesquisa\cite{carnevalli2001desenvolvimento}. 
+
+As perguntas objetivam coletar informações sobre o perfil dos desenvolvedores, as práticas que os mesmos aplicam e observam no desenvolvimento e se utilizam ferramentas para análise automatizada de seus códigos-fonte.
+
+A escolha do questionário com perguntas objetivas e curtas, justifica-se por se tratar de uma simples pesquisa de conferência e coleta de informações fechadas, levando em conta que o objetivo principal é identificar as práticas e convenções utilizadas por programadores da comunidade de Ruby.
+
+%%%%%%%%% Considerações Finais %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Considerações Finais}\label{sec:Conclusions}
+
+O trabalho apresentou ao decorrer de seu desenvolvimento a proposta de comparar e avaliar o impacto de boas práticas de programação no paradigma Orientado a Objetos, em projetos desenvolvidos na linguagem Ruby, baseando-se em estudos e criação de questionário para coleta de dados.
+
+Alguns obstáculos observados foram a literatura para referencial e fundamentação, pois em sua maioria tratava-se de material com bastante tempo de publicação.
+
+Na continuação deste trabalho, será realizada a identificação de boas práticas na literatura e documentação acadêmica, a distribuição do questionário, já validado, para a comunidade de desenvolvedores Ruby coletando dados para fundamentar o estudo, também, a avaliação da qualidade do código dos projetos escolhidos fazendo uso da ferramenta \textit{RubyCritic}. Após os levantamentos, será realizada a comparação dessas práticas com os dados obtidos e o parecer sobre o efeito delas no resultado da qualidade do código-fonte dos projetos.
+
+\renewcommand\refname{Referências}
+{\small
+\bibliographystyle{ieee}
+\bibliography{referencias_olaviolacerda}
+}
+
+
+\end{document}

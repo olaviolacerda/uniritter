@@ -1,0 +1,5 @@
+function add_quoting($string, $pattern = '> ')
+{
+  // add a quoting pattern to mark text quoted in your reply
+  return $pattern.str_replace("\n", "\n$pattern", $string);
+}

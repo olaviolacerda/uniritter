@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Tocador</title>
+    <link rel="shortcut icon" href="img/icon.ico" />
+    <style>
+        #player {
+            padding: ;
+            background-color: black;
+        }
+        @import url(http://fonts.googleapis.com/css?family=Open+Sans);
+        body {
+            font-family: 'Open Sans', sans-serif;
+            color: #666;
+        }
+        h1 {
+            text-align: center;
+        }
+        #pagewrap {
+            padding: 5px;
+            width: 960px;
+            margin: 20px auto;
+            text-align: center;
+        }
+        header {
+            height: 100px;
+            padding: 0 15px;
+        }
+        #middle {
+            width: 610px;
+            height: 450px;
+            float: left;
+            padding: 5px 15px;
+            margin: 0px 5px 0px 0px;
+        }
+        #menu {
+            width: 958px;
+            float: left;
+            height: 70px;
+            position: relative;
+            margin-bottom: 5px;
+        }
+        #sidebar {
+            width: 281px;
+            height: 450px;
+            padding: 5px 15px;
+            float: left;
+        }
+        footer {
+            clear: both;
+            padding: 0 15px;
+        }
+        #sidebar {
+            background: #f0efef;
+        }
+        header,
+        #content,
+        #middle,
+        #sidebar {
+            margin-bottom: 5px;
+        }
+        #pagewrap,
+        header,
+        #menu,
+        #middle,
+        #sidebar,
+        footer {
+            border: solid 1px #ccc;
+        }
+        ul {
+            text-align: left;
+            list-style-type: none;
+        }
+        li {
+            font-size: 15pt;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="pagewrap">
+        <header>
+            <h1>Tocador de músicas e vídeos</h1>
+        </header>
+        <!-- meio -->
+        <section id="middle">
+
+        </section>
+        <!-- Lista -->
+        <section id="sidebar">
+            <h2>Lista de reprodução:</h2>
+            <ul class="tocador drop">
+                <li class="tocador drag">musica1</li>
+                <li class="tocador drag">musica2</li>
+                <li class="tocador drag">video</li>
+            </ul>
+        </section>
+        <!-- funções -->
+        <div id="menu">
+
+        </div>
+        <!-- footer -->
+        <footer>
+            <h4>Developed by Toshi, Erico e Olavio&copy;</h4>
+        </footer>
+    </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="http://code.jquery.com/ui/1.12.1/jquery-ui.js" integrity="sha256-T0Vest3yCU7pafRw9r+settMBX6JkKN06dqBnpQ8d30=" crossorigin="anonymous"></script>
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script type="text/javascript">
+
+        //organizar
+        $('.drag, .drop').sortable({
+            connectWith: '.tocador'
+        });
+
+        //
+        $("#menu").droppable({
+            drop: function(ui, event) {
+                $("#menu").html("<video src='media/" + $(event.drag).html() + "' autoplay width='800' height='600' controls ></video>");
+            }
+        });
+    </script>
+
+</body>
+
+</html>
+
+
+.container {
+            font-family: 'Open Sans', sans-serif;
+            color: #666;
+            border-style: solid;
+            border-color: black;
+            border-radius: 20px;
+            text-align: center;
+            padding: 5px;
+            width: 960px;
+            margin: 20px auto;
+        }
+        header {
+            margin-top: -20px;
+        }
+        .header {
+            height: 50px;
+            padding: 0 15px;
+            text-align: center;
+            border-style: solid;
+            border-color: red;
+            border-radius: 20px;
+        }
+        #player {
+            border-style: solid;
+            border-color: yellow;
+            width: 600px;
+            float: left;
+            padding: 5px 15px;
+        }
+        .lista {
+            border-style: solid;
+            border-color: blue;
+            width: 275px;
+            float: left;
+            padding: 5px 20px;
+            margin: 5px 5px 7px 0px;
+        }
+        .menu {
+            border-style: solid;
+            border-color: gray;
+            width: 270px;
+            padding: 5px 15px;
+            float: left;
+        }
+        .footer {
+            border-style: solid;
+            border-color: purple;
+            clear: both;
+            padding: 0 15px;
+        }
+        .playlist {
+            list-style-type: none;
+        }
+        

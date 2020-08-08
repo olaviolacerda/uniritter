@@ -1,0 +1,5 @@
+﻿  Source.cpp
+c:\users\olavio\documents\visual studio 2017\projects\pong\pong\metodos.h(138): warning C4305: 'argument': truncation from 'double' to 'GLclampf'
+  Bola.cpp
+c:\users\olavio\documents\visual studio 2017\projects\pong\pong\bola.cpp(6): error C2447: '{': missing function header (old-style formal list?)
+  Generating Code...

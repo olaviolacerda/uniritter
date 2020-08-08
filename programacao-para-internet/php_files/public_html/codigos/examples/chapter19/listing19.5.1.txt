@@ -1,0 +1,45 @@
+<?php
+/*******************************************
+  Database query to get poll info 
+*******************************************/
+
+// get vote from form
+$vote=$HTTP_POST_VARS['vote'];
+
+// log in to database 
+if (!$db_conn = @mysql_connect('localhost', 'poll', 'poll'))
+{
+  echo 'Could not connect to db<br />';
+  exit;
+};
+@mysql_select_db('poll');
+
+if (!empty($vote))  // if they filled the form out, add their vote
+{
+  $vote = addslashes($vote); 
+  $query = "update poll_results
+            set num_votes = num_votes + 1
+            where candidate = '$vote'";
+  if(!($result = @mysql_query($query, $db_conn)))
+  {
+    echo 'Could not connect to db<br />';
+    exit;
+  }
+};
+
+// get current results of poll, regardless of whether they voted 
+$query = 'select * from poll_results';
+if(!($result = @mysql_query($query, $db_conn)))
+{
+  echo 'Could not connect to db<br />';
+  exit;
+}
+$num_candidates = mysql_num_rows($result); 
+
+// calculate total number of votes so far
+$total_votes=0;
+while ($row = mysql_fetch_object ($result)) 
+{
+    $total_votes +=  $row->num_votes;
+}
+mysql_data_seek($result, 0);  // reset result pointer

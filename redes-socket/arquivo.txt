@@ -1,0 +1,17 @@
+<!DOCTYPE HTML>
+<html lang="pt-BR">
+<head>
+	<meta charset="UTF-8">
+	<title>Trabalho de Socket´s</title>
+	<style>
+		strong {
+			background: #FFC;
+		}
+	</style>
+</head>
+<body>
+	
+Esse arquivo deve ser lido pelo servidor socket e enviado ao cliente assim que o cliente acessar o endereço e porta informado pelo aluno.
+
+</body>
+</html>

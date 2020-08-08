@@ -1,0 +1,26 @@
+function open_mailbox($auth_user, $accountid)
+{
+  global $HTTP_SESSION_VARS;
+  
+  // select mailbox if there is only one
+  if(number_of_accounts($auth_user)==1)
+  {
+    $accounts = get_account_list($auth_user); 
+    $HTTP_SESSION_VARS['selected_account'] = $accounts[0]; 
+    $accountid = $accounts[0];
+  }
+
+  // connect to the POP3 or IMAP server the user has selected
+  $settings = get_account_settings($auth_user, $accountid);
+  if(!sizeof($settings)) return 0;
+  $mailbox = '{'.$settings[server];
+  if($settings[type]=='POP3')
+    $mailbox .= '/pop3';
+  
+  $mailbox .= ':'.$settings[port].'}INBOX';
+  // suppress warning, remember to check return value  
+@ $imap = imap_open($mailbox, $settings['remoteuser'], 
+          $settings['remotepassword']);
+
+  return  $imap;
+}

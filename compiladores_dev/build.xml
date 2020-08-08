@@ -1,0 +1,125 @@
+<project name="MMML" basedir="." default="main">
+
+	<property name="src.dir" value="src" />
+	<property name="build.dir" value="build" />
+	<property name="classes.dir" value="${build.dir}/classes" />
+	<property name="jar.dir" value="${build.dir}/jar" />
+	<property name="main-class" value="RunParser" />
+	<property name="grammar.file" value="${src.dir}/MMML.g4" />
+	<property name="grun" value="org.antlr.v4.gui.TestRig" />
+	<property name="antlrtool" value="org.antlr.v4.Tool" />
+
+	<!-- All jars inside lib/ -->
+	<property name="lib.dir" value="lib/" />
+	<path id="classpath">
+		<fileset dir="${lib.dir}" includes="**/*.jar" />
+	</path>
+
+
+	<target name="clean">
+		<delete dir="${build.dir}" />
+	</target>
+
+	<target name="compile" depends="generate" >
+		<mkdir dir="${classes.dir}" />
+		<javac srcdir="${src.dir}" destdir="${classes.dir}" classpathref="classpath" includeantruntime="false"/>
+		<javac srcdir="${src.dir}/parserMMML" destdir="${classes.dir}" classpathref="classpath"  includeantruntime="false" />
+	</target>
+
+	<target name="jar" depends="compile" >
+		<mkdir dir="${jar.dir}" />
+		<jar destfile="${jar.dir}/${ant.project.name}.jar" basedir="${classes.dir}">
+			<manifest>
+				<attribute name="Main-Class" value="${main-class}" />
+			</manifest>
+		</jar>
+	</target>
+
+	<target name="run" depends="jar">
+		<java fork="true" classname="${main-class}">
+			<classpath>
+				<path refid="classpath" />
+				<path location="${jar.dir}/${ant.project.name}.jar" />
+			</classpath>
+		</java>
+	</target>
+
+	<target name="rungui" depends="jar">
+		<java fork="true" classname="${grun}">
+			<arg value="MMML" />
+			<arg value="MMML" />
+			<arg value="-gui" />
+			<classpath>
+				<path refid="classpath" />
+				<path location="${jar.dir}/${ant.project.name}.jar" />
+			</classpath>
+		</java>
+	</target>
+
+	<target name="generate" description="Generates the lexer and parser from the .g grammar file.">
+		<echo>Generating the lexer and parserMMML...</echo>
+		<java classname="${antlrtool}" fork="true" failonerror="true">
+			<arg value="${grammar.file}" />
+			<arg value="-o" />
+			<arg value="${src.dir}/parserMMML" />
+			<classpath refid="classpath" />
+		</java>
+	</target>
+	<target name="clean-build" depends="clean,jar" />
+
+	<target name="main" depends="clean,jar" />
+
+</project>
+
+<!--
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project name="YourProject">
+
+    <property name="main.package"    value="yourproject"/>
+    <property name="parser.package"  value="${main.package}/parser"/>
+    <property name="main.src.dir"    value="src/main"/>
+    <property name="test.src.dir"    value="src/test"/>
+    <property name="grammar.src.dir" value="src/grammar"/>
+    <property name="grammar.file"    value="${grammar.src.dir}/YourGrammar.g"/>
+    <property name="build.dir"       value="build"/>
+    <property name="classes.dir"     value="${build.dir}/classes"/>
+    <property name="main.build.dir"  value="${classes.dir}/main"/>
+    <property name="test.build.dir"  value="${classes.dir}/test"/>
+
+    <path id="classpath">
+        <pathelement location="${main.src.dir}"/>
+        <pathelement location="${test.src.dir}"/>
+        <pathelement location="${main.build.dir}"/>
+        <pathelement location="${test.build.dir}"/>
+
+        <fileset dir="lib">
+                <include name="*.jar"/>
+        </fileset>
+    </path>
+
+
+    <target name="compile" depends="init" description="Compiles all source files.">
+        <javac srcdir="${main.src.dir}" destdir="${main.build.dir}" includeantruntime="false">
+            <classpath refid="classpath"/>
+        </javac>
+        <javac srcdir="${test.src.dir}" destdir="${test.build.dir}" includeantruntime="false">
+            <classpath refid="classpath"/>
+        </javac>
+    </target>
+
+    <target name="generate" depends="init" description="Generates the lexer and parser from the .g grammar file.">
+        <echo>Generating the lexer and parser...</echo>
+        <java classname="org.antlr.Tool" fork="true" failonerror="true">
+            <arg value="-fo"/>
+            <arg value="${main.src.dir}/${parser.package}"/>
+            <arg value="${grammar.file}"/>
+            <classpath refid="classpath"/>
+        </java>
+
+        <antcall target="compile"/>
+    </target>
+
+</project>
+
+-->
